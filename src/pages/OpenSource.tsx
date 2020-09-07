@@ -22,7 +22,7 @@ interface DetailInterface {
 const openSourceDetails: DetailInterface[] = [
 	{
 		title: 'Typescript',
-		imageUrl: 'https://www.typescriptlang.org/assets/images/icons/favicon.ico',
+		imageUrl: 'https://www.typescriptlang.org/favicon.ico',
 		link: 'https://www.typescriptlang.org/',
 		description:
 			'TypeScript is a typed superset of JavaScript that compiles to plain JavaScript.',
@@ -35,27 +35,27 @@ const openSourceDetails: DetailInterface[] = [
 	},
 	{
 		title: 'React Router',
-		imageUrl: 'https://reacttraining.com/react-router/favicon.ico',
+		imageUrl: 'https://reacttraining.com/favicon.ico',
 		link: 'https://reacttraining.com/react-router/',
 		description:
 			'React Router is a collection of navigational components that compose declaratively with your application.',
 	},
 	{
 		title: 'Material-UI',
-		imageUrl: 'https://material-ui.com/static/favicon.ico',
+		imageUrl: 'https://material-ui.com/favicon.ico',
 		link: 'https://material-ui.com/',
 		description:
 			'React components for faster and easier web development. Build your own design system, or start with Material Design.',
 	},
 	{
 		title: 'Moment.js',
-		imageUrl: 'https://momentjs.com/static/img/moment-favicon.png',
+		imageUrl: 'https://momentjs.com/favicon.ico',
 		link: 'https://momentjs.com/',
 		description: 'Parse, validate, manipulate, and display dates and times in JavaScript.',
 	},
 	{
 		title: 'Hacker News Firebase API',
-		imageUrl: 'https://www.ycombinator.com/assets/ycdc/ycombinator-logo.png',
+		imageUrl: 'https://www.ycombinator.com/favicon.ico',
 		link: 'https://github.com/HackerNews/API',
 		description:
 			"Public Hacker News data available in near real time. Firebase enables easy access from Android, iOS and the web. Servers aren't left out.",
@@ -91,7 +91,7 @@ const OpenSource = () => {
 		<div className={classes.root}>
 			<Typography variant='h2'>Open Source</Typography>
 			<Typography variant='h5' gutterBottom>
-				Thank you to the creators (and companies) behind of these open source packages which
+				Thank you to the developers and companies behind of these open source packages which
 				make this app happen.
 			</Typography>
 			<div className={classes.sourceList}>

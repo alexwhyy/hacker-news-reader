@@ -8,7 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Pagination from '@material-ui/lab/Pagination';
 import TablePagination from '@material-ui/core/TablePagination';
-import Grid from '@material-ui/core/Grid';
+import Grid from '@material-ui/core/Grid';import {withRouter} from 'react-router';
 
 import { deepOrange } from '@material-ui/core/colors';
 
@@ -56,7 +56,7 @@ interface PostStateInterface {
 	itemsPerPage: number;
 }
 
-export default class Posts extends React.Component<PostsPropsInterface, PostStateInterface> {
+class Posts extends React.Component<PostsPropsInterface, PostStateInterface> {
 	constructor(props: PostsPropsInterface) {
 		super(props);
 		this.state = {
@@ -89,7 +89,7 @@ export default class Posts extends React.Component<PostsPropsInterface, PostStat
 	};
 
 	componentDidMount = () => {
-		document.title = 'Material Hacker News';
+		document.title = 'Hacker News';
 		let URL: string = 'https://hacker-news.firebaseio.com/v0/' + this.props.category + '.json';
 
 		fetch(URL)
@@ -107,7 +107,7 @@ export default class Posts extends React.Component<PostsPropsInterface, PostStat
 			<Fragment>
 				{this.state.allIds && (
 					<Fragment>
-						<List>
+						<List style={{ margin: '0 5px'}}>
 							{this.state.renderedIds.map((id: number) => (
 								<Fragment key={id}>
 									<Post id={id} />
@@ -130,3 +130,5 @@ export default class Posts extends React.Component<PostsPropsInterface, PostStat
 		);
 	}
 }
+// @ts-ignore
+export default withRouter(Posts);

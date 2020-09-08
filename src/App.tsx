@@ -22,7 +22,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import CodeIcon from "@material-ui/icons/Code";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import { makeStyles, useTheme, Theme, createStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme, Theme, createStyles, MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
 import { BrowserRouter as Router, Switch, Route, Link as RouterLink, NavLink, Redirect } from "react-router-dom";
@@ -36,6 +36,14 @@ import OpenSource from "./pages/OpenSource";
 import NotFound from "./pages/NotFound";
 
 const drawerWidth = 240;
+
+const yCombinatorTheme = createMuiTheme({
+    palette: {
+        primary: {
+            main: "#f26522",
+        },
+    },
+});
 
 const useStyles = makeStyles((theme: Theme) => ({
     root: {
@@ -99,7 +107,7 @@ function ResponsiveDrawer(props: DrawerProps) {
         <div className={classes.toolbar}>
             <Divider />
             <List>
-                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/">
+                <NavLink style={{ color: "black", textDecoration: "none" }} to="/">
                     <ListItem button>
                         <ListItemIcon>
                             <TrendingUpIcon />
@@ -107,7 +115,7 @@ function ResponsiveDrawer(props: DrawerProps) {
                         <ListItemText primary="Top Stories" />
                     </ListItem>
                 </NavLink>
-                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/newest">
+                <NavLink style={{ color: "black", textDecoration: "none" }} to="/newest">
                     <ListItem button>
                         <ListItemIcon>
                             <FiberNewIcon />
@@ -124,7 +132,7 @@ function ResponsiveDrawer(props: DrawerProps) {
                     </ListSubheader>
                 }
             >
-                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/ask">
+                <NavLink style={{ color: "black", textDecoration: "none" }} to="/ask">
                     <ListItem button>
                         <ListItemIcon>
                             <ChatIcon />
@@ -132,7 +140,7 @@ function ResponsiveDrawer(props: DrawerProps) {
                         <ListItemText primary="Ask Stories" />
                     </ListItem>
                 </NavLink>
-                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/show">
+                <NavLink style={{ color: "black", textDecoration: "none" }} to="/show">
                     <ListItem button>
                         <ListItemIcon>
                             <VisibilityIcon />
@@ -140,7 +148,7 @@ function ResponsiveDrawer(props: DrawerProps) {
                         <ListItemText primary="Show Stories" />
                     </ListItem>
                 </NavLink>
-                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/jobs">
+                <NavLink style={{ color: "black", textDecoration: "none" }} to="/jobs">
                     <ListItem button>
                         <ListItemIcon>
                             <WorkIcon />
@@ -151,7 +159,7 @@ function ResponsiveDrawer(props: DrawerProps) {
             </List>
             <Divider />
             <List>
-                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/saved">
+                <NavLink style={{ color: "black", textDecoration: "none" }} to="/saved">
                     <ListItem button>
                         <ListItemIcon>
                             <FavoriteIcon />
@@ -162,7 +170,7 @@ function ResponsiveDrawer(props: DrawerProps) {
             </List>
             <Divider />
             <List>
-                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/about">
+                <NavLink style={{ color: "black", textDecoration: "none" }} to="/about">
                     <ListItem button>
                         <ListItemIcon>
                             <InfoIcon />
@@ -170,7 +178,7 @@ function ResponsiveDrawer(props: DrawerProps) {
                         <ListItemText primary="About" />
                     </ListItem>
                 </NavLink>
-                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/open-source">
+                <NavLink style={{ color: "black", textDecoration: "none" }} to="/open-source">
                     <ListItem button>
                         <ListItemIcon>
                             <CodeIcon />
@@ -186,95 +194,106 @@ function ResponsiveDrawer(props: DrawerProps) {
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
-        <Router>
-            <div className={classes.root}>
-                <CssBaseline />
-                <AppBar position="fixed" className={classes.appBar}>
-                    <Toolbar>
-                        <IconButton
-                            color="inherit"
-                            aria-label="open drawer"
-                            edge="start"
-                            onClick={handleDrawerToggle}
-                            className={classes.menuButton}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography variant="body1" noWrap>
-                            Hacker News Reader
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <nav className={classes.drawer} aria-label="mailbox folders">
-                    {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-                    <Hidden smUp implementation="css">
-                        <Drawer
-                            container={container}
-                            variant="temporary"
-                            anchor={theme.direction === "rtl" ? "right" : "left"}
-                            open={mobileOpen}
-                            onClose={handleDrawerToggle}
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            ModalProps={{
-                                keepMounted: true, // Better open performance on mobile.
-                            }}
-                        >
-                            {drawer}
-                        </Drawer>
-                    </Hidden>
-                    <Hidden xsDown implementation="css">
-                        <Drawer
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            variant="permanent"
-                            open
-                        >
-                            {drawer}
-                        </Drawer>
-                    </Hidden>
-                </nav>
-                <main className={classes.content}>
-                    <div className={classes.toolbar} />
+        <MuiThemeProvider theme={yCombinatorTheme}>
+            <Router>
+                <div className={classes.root}>
+                    <CssBaseline />
+                    <AppBar position="fixed" className={classes.appBar}>
+                        <Toolbar>
+                            <IconButton
+                                color="inherit"
+                                aria-label="open drawer"
+                                edge="start"
+                                onClick={handleDrawerToggle}
+                                className={classes.menuButton}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            <img src="/static/images/ycombinator-logo.png" style={{ height: '3rem' }}></img>
+                            <Typography variant="body1" noWrap>
+                                Prettier Hacker News
+                            </Typography>
+                        </Toolbar>
+                    </AppBar>
+                    <nav className={classes.drawer} aria-label="mailbox folders">
+                        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+                        <Hidden smUp implementation="css">
+                            <Drawer
+                                container={container}
+                                variant="temporary"
+                                anchor={theme.direction === "rtl" ? "right" : "left"}
+                                open={mobileOpen}
+                                onClose={handleDrawerToggle}
+                                classes={{
+                                    paper: classes.drawerPaper,
+                                }}
+                                ModalProps={{
+                                    keepMounted: true, // Better open performance on mobile.
+                                }}
+                            >
+                                {drawer}
+                            </Drawer>
+                        </Hidden>
+                        <Hidden xsDown implementation="css">
+                            <Drawer
+                                classes={{
+                                    paper: classes.drawerPaper,
+                                }}
+                                variant="permanent"
+                                open
+                            >
+                                {drawer}
+                            </Drawer>
+                        </Hidden>
+                    </nav>
+                    <main className={classes.content}>
+                        <div className={classes.toolbar} />
 
-                    {/* Optionally replace this with container */}
-                    <Fragment>
-                        <Switch>
-                            {/* Why are we generating random keys? Because we are using the same component for each of the links and react-router thinks nothing is being changed. Thereforce, we have to manually refresh the key every single time they load the new component. See more: https://stackoverflow.com/questions/38839510/forcing-a-react-router-link-to-load-a-page-even-if-were-already-on-that-page */}
-                            <Route
-                                exact
-                                path="/"
-                                render={() => <Stories category="topstories" />}
-                                key={uuidv4()}
-                            ></Route>
-                            <Route
-                                path="/newest"
-                                render={() => <Stories category="newstories" />}
-                                key={uuidv4()}
-                            ></Route>
-                            <Route path="/ask" render={() => <Stories category="askstories" />} key={uuidv4()}></Route>
-                            <Route
-                                path="/show"
-                                render={() => <Stories category="showstories" />}
-                                key={uuidv4()}
-                            ></Route>
-                            <Route path="/jobs" render={() => <Stories category="jobstories" />} key={uuidv4()}></Route>
-                            <Route path="/saved">
-                                <SavedPosts />
-                            </Route>
-                            <Route path="/item/:id" component={ItemView} />
-                            <Route path="/user/:id" component={UserView} />
-                            <Route path="/open-source" component={OpenSource} />
-                            <Route path="/about" component={About} />
-                            <Route path="/404" component={NotFound} />
-                            <Redirect to="/404" />
-                        </Switch>
-                    </Fragment>
-                </main>
-            </div>
-        </Router>
+                        {/* Optionally replace this with container */}
+                        <Fragment>
+                            <Switch>
+                                {/* Why are we generating random keys? Because we are using the same component for each of the links and react-router thinks nothing is being changed. Thereforce, we have to manually refresh the key every single time they load the new component. See more: https://stackoverflow.com/questions/38839510/forcing-a-react-router-link-to-load-a-page-even-if-were-already-on-that-page */}
+                                <Route
+                                    exact
+                                    path="/"
+                                    render={() => <Stories category="topstories" />}
+                                    key={uuidv4()}
+                                ></Route>
+                                <Route
+                                    path="/newest"
+                                    render={() => <Stories category="newstories" />}
+                                    key={uuidv4()}
+                                ></Route>
+                                <Route
+                                    path="/ask"
+                                    render={() => <Stories category="askstories" />}
+                                    key={uuidv4()}
+                                ></Route>
+                                <Route
+                                    path="/show"
+                                    render={() => <Stories category="showstories" />}
+                                    key={uuidv4()}
+                                ></Route>
+                                <Route
+                                    path="/jobs"
+                                    render={() => <Stories category="jobstories" />}
+                                    key={uuidv4()}
+                                ></Route>
+                                <Route path="/saved">
+                                    <SavedPosts />
+                                </Route>
+                                <Route path="/item/:id" component={ItemView} />
+                                <Route path="/user/:id" component={UserView} />
+                                <Route path="/open-source" component={OpenSource} />
+                                <Route path="/about" component={About} />
+                                <Route path="/404" component={NotFound} />
+                                <Redirect to="/404" />
+                            </Switch>
+                        </Fragment>
+                    </main>
+                </div>
+            </Router>
+        </MuiThemeProvider>
     );
 }
 

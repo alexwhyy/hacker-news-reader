@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 		marginRight: theme.spacing(2),
 		width: theme.spacing(6),
 		height: theme.spacing(6),
-		backgroundColor: deepOrange[500],
+		backgroundColor: '#f26522',
 	},
 }));
 

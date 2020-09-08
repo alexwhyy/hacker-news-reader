@@ -1,11 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 
-import {
-    makeStyles,
-    useTheme,
-    Theme,
-    createStyles,
-} from "@material-ui/core/styles";
+import { makeStyles, useTheme, Theme, createStyles } from "@material-ui/core/styles";
 import { deepOrange } from "@material-ui/core/colors";
 
 import Paper from "@material-ui/core/Paper";
@@ -30,12 +25,9 @@ import List from "@material-ui/core/List";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { monokai } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
-import {
-    Link as RouterLink,
-    RouteComponentProps,
-    withRouter,
-    useParams,
-} from "react-router-dom";
+import { Helmet } from "react-helmet";
+
+import { Link as RouterLink, RouteComponentProps, withRouter, useParams } from "react-router-dom";
 
 import moment from "moment";
 import ListItem from "@material-ui/core/ListItem";
@@ -140,8 +132,7 @@ const Comment = (props: { id: number }) => {
     const [openDebugger, setOpenDebugger] = useState<boolean>(false);
 
     useEffect(() => {
-        const URL: string =
-            "https://hacker-news.firebaseio.com/v0/item/" + props.id + ".json";
+        const URL: string = "https://hacker-news.firebaseio.com/v0/item/" + props.id + ".json";
         fetch(URL)
             .then((response) => response.json())
             .then((response) => {
@@ -162,10 +153,7 @@ const Comment = (props: { id: number }) => {
                                 {/* Represents the comment if it hasn't been deleted */}
                                 <Grid container spacing={2}>
                                     <Grid item>
-                                        <Tooltip
-                                            title="Toggle Comment"
-                                            aria-label="toggle"
-                                        >
+                                        <Tooltip title="Toggle Comment" aria-label="toggle">
                                             <IconButton
                                                 className={classes.hideButton}
                                                 aria-label="hide"
@@ -179,22 +167,15 @@ const Comment = (props: { id: number }) => {
                                         </Tooltip>
                                     </Grid>
                                     <Grid item>
-                                        <Typography variant="h6">
-                                            <RouterLink to={"/user/" + item.by}>
-                                                {item.by}
-                                            </RouterLink>
+                                        <Typography variant="body1">
+                                            <RouterLink to={`/user/${item.by}`}>{item.by}</RouterLink>
                                         </Typography>
-                                        <Typography
-                                            variant="body1"
-                                            color="textSecondary"
-                                            gutterBottom
-                                        >
+                                        <Typography variant="body1" color="textSecondary" gutterBottom>
                                             {moment.unix(item.time).calendar()}
                                             {item.kids && (
                                                 <Fragment>
                                                     {" | "}
-                                                    {item.kids.length} Direct
-                                                    Responses
+                                                    {item.kids.length} Direct Responses
                                                 </Fragment>
                                             )}
                                         </Typography>
@@ -203,10 +184,7 @@ const Comment = (props: { id: number }) => {
 
                                 {/* The actual text of the comment */}
                                 {!hide ? (
-                                    <Typography
-                                        className={classes.commentBody}
-                                        variant="body1"
-                                    >
+                                    <Typography className={classes.commentBody} variant="body1">
                                         <span
                                             dangerouslySetInnerHTML={{
                                                 __html: item.text,
@@ -217,13 +195,8 @@ const Comment = (props: { id: number }) => {
                             </Fragment>
                         ) : (
                             <Fragment>
-                                <Typography variant="h6">
-                                    Comment Deleted
-                                </Typography>
-                                <Typography
-                                    variant="body1"
-                                    color="textSecondary"
-                                >
+                                <Typography variant="h6">Comment Deleted</Typography>
+                                <Typography variant="body1" color="textSecondary">
                                     {moment.unix(item.time).calendar()}
                                 </Typography>
                             </Fragment>
@@ -288,11 +261,7 @@ const Comment = (props: { id: number }) => {
                     {/* Represents the replies to the item at the instance */}
                     {item.kids &&
                         item.kids.map((id: number) => (
-                            <div
-                                key={"comment-" + id}
-                                className={classes.commentChild}
-                                hidden={hide}
-                            >
+                            <div key={`comment-${id}`} className={classes.commentChild} hidden={hide}>
                                 <Comment id={id} />
                             </div>
                         ))}
@@ -306,12 +275,7 @@ const Comment = (props: { id: number }) => {
                             </Skeleton>
                         </Grid>
                         <Grid item>
-                            <Skeleton
-                                animation="wave"
-                                variant="rect"
-                                width="150px"
-                                height={18}
-                            />
+                            <Skeleton animation="wave" variant="rect" width="150px" height={18} />
                             <Skeleton
                                 animation="wave"
                                 variant="rect"
@@ -337,7 +301,7 @@ const Comment = (props: { id: number }) => {
 
 const pollOptionStyles = makeStyles((theme) => ({
     scoreAvatar: {
-        backgroundColor: deepOrange[500],
+        backgroundColor: "#f26522",
     },
 }));
 
@@ -346,8 +310,7 @@ const PollOption = (props: { id: number }) => {
     let [item, setItem] = useState<FirebaseItemViewInterface>();
 
     useEffect(() => {
-        const URL =
-            "https://hacker-news.firebaseio.com/v0/item/" + props.id + ".json";
+        const URL = "https://hacker-news.firebaseio.com/v0/item/" + props.id + ".json";
         fetch(URL)
             .then((response) => response.json())
             .then((response) => setItem(response));
@@ -358,14 +321,9 @@ const PollOption = (props: { id: number }) => {
             {item && (
                 <ListItem>
                     <ListItemAvatar>
-                        <Avatar className={classes.scoreAvatar}>
-                            {item.score}
-                        </Avatar>
+                        <Avatar className={classes.scoreAvatar}>{item.score}</Avatar>
                     </ListItemAvatar>
-                    <ListItemText
-                        primary={item.text}
-                        secondary={moment.unix(item.time).calendar()}
-                    />
+                    <ListItemText primary={item.text} secondary={moment.unix(item.time).calendar()} />
                 </ListItem>
             )}
         </Fragment>
@@ -374,7 +332,7 @@ const PollOption = (props: { id: number }) => {
 
 const itemHeroOptionStyles = makeStyles((theme) => ({
     scoreAvatar: {
-        backgroundColor: deepOrange[500],
+        backgroundColor: "#f26522",
         width: theme.spacing(8),
         height: theme.spacing(8),
     },
@@ -398,53 +356,30 @@ const ItemHero = (props: { firebaseItem: FirebaseItemViewInterface }) => {
                     <Grid container spacing={3}>
                         {firebaseItem.score && (
                             <Grid item>
-                                <Avatar className={classes.scoreAvatar}>
-                                    {firebaseItem.score}
-                                </Avatar>
+                                <Avatar className={classes.scoreAvatar}>{firebaseItem.score}</Avatar>
                             </Grid>
                         )}
                         <Grid item>
                             {firebaseItem.url ? (
                                 <Fragment>
                                     {" "}
-                                    <Link
-                                        href={firebaseItem.url}
-                                        target="_blank"
-                                    >
-                                        <Typography variant="h4">
-                                            {firebaseItem.title}
-                                        </Typography>
+                                    <Link href={firebaseItem.url} target="_blank">
+                                        <Typography variant="h4">{firebaseItem.title}</Typography>
                                     </Link>
-                                    <Typography
-                                        variant="body1"
-                                        color="textSecondary"
-                                        gutterBottom
-                                    >
+                                    <Typography variant="body1" color="textSecondary" gutterBottom>
                                         ({new URL(firebaseItem.url).hostname})
                                     </Typography>
                                 </Fragment>
                             ) : (
-                                <Typography variant="h4">
-                                    {firebaseItem.title}
-                                </Typography>
+                                <Typography variant="h4">{firebaseItem.title}</Typography>
                             )}
 
-                            <Typography
-                                variant="body1"
-                                color="textSecondary"
-                                gutterBottom
-                            >
+                            <Typography variant="body1" color="textSecondary" gutterBottom>
                                 {"By "}
-                                <RouterLink to={"/user/" + firebaseItem.by}>
-                                    {firebaseItem.by}
-                                </RouterLink>
+                                <RouterLink to={"/user/" + firebaseItem.by}>{firebaseItem.by}</RouterLink>
                                 {" | "}
                                 {moment.unix(firebaseItem.time).calendar()}
-                                {" | " +
-                                    (firebaseItem.descendants
-                                        ? firebaseItem.descendants
-                                        : "0") +
-                                    " Comments"}
+                                {" | " + (firebaseItem.descendants ? firebaseItem.descendants : "0") + " Comments"}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -463,11 +398,7 @@ const ItemHero = (props: { firebaseItem: FirebaseItemViewInterface }) => {
             renderedItem = (
                 <Fragment>
                     <Typography variant="h4">{firebaseItem.by}</Typography>
-                    <Typography
-                        variant="body1"
-                        color="textSecondary"
-                        gutterBottom
-                    >
+                    <Typography variant="body1" color="textSecondary" gutterBottom>
                         {moment.unix(firebaseItem.time).calendar()}
                     </Typography>
                     <Typography variant="body1">{firebaseItem.text}</Typography>
@@ -478,22 +409,12 @@ const ItemHero = (props: { firebaseItem: FirebaseItemViewInterface }) => {
             renderedItem = (
                 <Fragment>
                     <Typography variant="h4">{firebaseItem.title}</Typography>
-                    <Typography
-                        variant="body1"
-                        color="textSecondary"
-                        gutterBottom
-                    >
+                    <Typography variant="body1" color="textSecondary" gutterBottom>
                         {"By "}
-                        <RouterLink to={"/user/" + firebaseItem.by}>
-                            {firebaseItem.by}
-                        </RouterLink>
+                        <RouterLink to={"/user/" + firebaseItem.by}>{firebaseItem.by}</RouterLink>
                         {" | "}
                         {moment.unix(firebaseItem.time).calendar()}
-                        {" | " +
-                            (firebaseItem.descendants
-                                ? firebaseItem.descendants
-                                : "0") +
-                            " Comments"}
+                        {" | " + (firebaseItem.descendants ? firebaseItem.descendants : "0") + " Comments"}
                     </Typography>
                     <List>
                         {firebaseItem.parts.map((id: number) => (
@@ -508,41 +429,25 @@ const ItemHero = (props: { firebaseItem: FirebaseItemViewInterface }) => {
                 <Grid container spacing={3}>
                     {firebaseItem.score && (
                         <Grid item>
-                            <Avatar className={classes.scoreAvatar}>
-                                {firebaseItem.score}
-                            </Avatar>
+                            <Avatar className={classes.scoreAvatar}>{firebaseItem.score}</Avatar>
                         </Grid>
                     )}
                     <Grid item>
-                        <Typography variant="h4">
-                            {firebaseItem.text}
-                        </Typography>
-                        <Typography
-                            variant="body1"
-                            color="textSecondary"
-                            gutterBottom
-                        >
+                        <Typography variant="h4">{firebaseItem.text}</Typography>
+                        <Typography variant="body1" color="textSecondary" gutterBottom>
                             {"By "}
-                            <RouterLink to={"/user/" + firebaseItem.by}>
-                                {firebaseItem.by}
-                            </RouterLink>
+                            <RouterLink to={"/user/" + firebaseItem.by}>{firebaseItem.by}</RouterLink>
                             {" | "}
                             {moment.unix(firebaseItem.time).calendar()}
                             {" | "}
-                            <RouterLink to={"/item/" + firebaseItem.poll}>
-                                View Poll
-                            </RouterLink>
+                            <RouterLink to={"/item/" + firebaseItem.poll}>View Poll</RouterLink>
                         </Typography>
                     </Grid>
                 </Grid>
             );
             break;
         default:
-            renderedItem = (
-                <Typography variant="h4">
-                    Unknown Item Type {firebaseItem.type}
-                </Typography>
-            );
+            renderedItem = <Typography variant="h4">Unknown Item Type {firebaseItem.type}</Typography>;
     }
     return renderedItem;
 };
@@ -579,18 +484,12 @@ const ItemView = (props: ItemViewProps) => {
 			});
 		*/
 
-        const FIREBASE_URL =
-            "https://hacker-news.firebaseio.com/v0/item/" + id + ".json";
+        const FIREBASE_URL = "https://hacker-news.firebaseio.com/v0/item/" + id + ".json";
         fetch(FIREBASE_URL)
             .then((itemResponse) => itemResponse.json())
             .then((itemResponse: FirebaseItemViewInterface) => {
                 setFirebaseItem(itemResponse);
                 console.log(itemResponse);
-                if (itemResponse.title) {
-                    document.title = itemResponse.title + " | Hacker News";
-                } else {
-                    document.title = itemResponse.text + " | Hacker News";
-                }
 
                 if (itemResponse.url) {
                     /*
@@ -606,35 +505,27 @@ const ItemView = (props: ItemViewProps) => {
                         .replace(/,/g, " ");
                     console.log(searchQuery);
                     const RELATED_ITEMS_SEARCH_URL: string =
-                        "http://hn.algolia.com/api/v1/search_by_date?query=" +
-                        searchQuery +
-                        "&tags=story";
-					fetch(RELATED_ITEMS_SEARCH_URL)
-						.then((searchResponse) => {
-							if (searchResponse.status !== 200) {
-								alert('Error: ' + searchResponse);
-							}
-							return searchResponse;
-						})
+                        "https://hn.algolia.com/api/v1/search_by_date?query=" + searchQuery + "&tags=story";
+                    fetch(RELATED_ITEMS_SEARCH_URL)
+                        .then((searchResponse) => {
+                            if (searchResponse.status !== 200) {
+                                alert("Error: " + searchResponse);
+                            }
+                            return searchResponse;
+                        })
                         .then((searchResponse) => searchResponse.json())
                         .then((searchResponse) => {
                             return searchResponse.hits.filter(
-                                (hit: AlgoliaSearchHitInterface) =>
-                                    parseInt(hit.objectID) !== itemResponse.id
+                                (hit: AlgoliaSearchHitInterface) => parseInt(hit.objectID) !== itemResponse.id
                             );
                         })
                         .then((searchResponse: any) => {
                             setRelatedItems(
-                                searchResponse.map(
-                                    (hit: AlgoliaSearchHitInterface) => {
-                                        if (
-                                            parseInt(hit.objectID) !==
-                                            itemResponse.id
-                                        ) {
-                                            return parseInt(hit.objectID);
-                                        }
+                                searchResponse.map((hit: AlgoliaSearchHitInterface) => {
+                                    if (parseInt(hit.objectID) !== itemResponse.id) {
+                                        return parseInt(hit.objectID);
                                     }
-                                )
+                                })
                             );
                         });
                 }
@@ -644,31 +535,26 @@ const ItemView = (props: ItemViewProps) => {
     return (
         <div className={classes.root}>
             {firebaseItem ? (
-                <Grid container spacing={3}>
-                    <Grid item xs={12} md={8}>
-                        <Paper variant="outlined" className={classes.paper}>
-                            {firebaseItem && (
-                                <ItemHero firebaseItem={firebaseItem} />
-                            )}
-                        </Paper>
-                        <Fragment>
-                            {/* Since this is the root instance of the item, we need to use map to start off the recursion train */}
-                            {firebaseItem.kids &&
-                                firebaseItem.kids.map((id: number) => (
-                                    <Comment key={"comment-" + id} id={id} />
-                                ))}
-                        </Fragment>
-                    </Grid>
-                    {firebaseItem.url &&
-                        relatedItems &&
-                        relatedItems.length >= 1 ? (
+                <Fragment>
+                    <Helmet>
+                        <title>{firebaseItem.title}</title>
+                    </Helmet>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} md={8}>
+                            <Paper variant="outlined" className={classes.paper}>
+                                {firebaseItem && <ItemHero firebaseItem={firebaseItem} />}
+                            </Paper>
+                            <Fragment>
+                                {/* Since this is the root instance of the item, we need to use map to start off the recursion train */}
+                                {firebaseItem.kids &&
+                                    firebaseItem.kids.map((id: number) => <Comment key={"comment-" + id} id={id} />)}
+                            </Fragment>
+                        </Grid>
+                        {firebaseItem.url && relatedItems && relatedItems.length >= 1 ? (
                             <Grid item xs={false} md={4}>
-                                <Typography variant="h5">
-                                    Related Submissions
-                                </Typography>
+                                <Typography variant="h5">Related Submissions</Typography>
                                 <Typography variant="body1">
-                                    We try to recommend related posts but we
-                                    sometimes fail catastrophically and in
+                                    We try to recommend related posts but we sometimes fail catastrophically and in
                                     really dumb ways.
                                 </Typography>
                                 {relatedItems && (
@@ -682,9 +568,10 @@ const ItemView = (props: ItemViewProps) => {
                                 )}
                             </Grid>
                         ) : (
-							<Typography variant='h5'>No related articles found.</Typography>
-						)}
-                </Grid>
+                            <Typography variant="h5">No related articles found.</Typography>
+                        )}
+                    </Grid>
+                </Fragment>
             ) : (
                 <CircularProgress />
             )}

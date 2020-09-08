@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 		padding: theme.spacing(3)
 	},
 	karmaAvatar: {
-		backgroundColor: deepOrange[500],
+		backgroundColor: '#f26522',
 		width: theme.spacing(8),
 		height: theme.spacing(8)
 	},

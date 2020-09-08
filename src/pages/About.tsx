@@ -27,9 +27,10 @@ const About = () => {
             </Typography>
             <Typography variant="body1">
                 This application was built with ❤️ and ☕ by <a href="https://alexyuan.me">Alex Yuan</a> and{" "}
-                <a href="https://www.linkedin.com/in/gary-li-dev/">Gary Li</a>. We were both high school students when we originally released
-                this website. Both of us are starting school at the University of Waterloo so we won't have as much time
-                to work on this project.
+                <a href="https://www.linkedin.com/in/gary-li-dev/">Gary Li</a>. We were both high school students at the
+                time when this application was developed. Both of us are starting school at the University of Waterloo
+                so we won't have as much time to work on this project. Alex will be studying Geomatics and Gary will be
+                studying computer engineering.
             </Typography>
         </Container>
     );

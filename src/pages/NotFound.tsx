@@ -1,11 +1,13 @@
 import React, { Fragment } from "react";
 import Typography from "@material-ui/core/Typography";
+import Container from '@material-ui/core/Container';
 
 const NotFound = () => {
     return (
-        <Fragment>
+        <Container>
             <img src="/static/images/undraw_page_not_found.svg" style={{ width: "100%", marginTop: "50px" }}></img>
-        </Fragment>
+            <Typography variant='h3' align='center'>Uh oh</Typography>
+        </Container>
     );
 };
 

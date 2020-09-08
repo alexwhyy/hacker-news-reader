@@ -4,6 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Link from "@material-ui/core/Link";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import { Container } from "@material-ui/core";
 
 const aboutStyles = makeStyles((theme) => ({
     root: {
@@ -15,8 +16,8 @@ const About = () => {
     const classes = aboutStyles();
 
     return (
-        <div className={classes.root}>
-            <Typography variant="h2">About</Typography>
+        <Container className={classes.root}>
+            <Typography variant="h4">About</Typography>
             <Typography variant="body1" gutterBottom>
                 Hacker News is a link aggregation and discussion website operated by startup accelerator{" "}
                 <a href="https://www.ycombinator.com">Y Combinator</a>. Submissions are primary focused on computer
@@ -30,7 +31,7 @@ const About = () => {
                 this website. Both of us are starting school at the University of Waterloo so we won't have as much time
                 to work on this project.
             </Typography>
-        </div>
+        </Container>
     );
 };
 

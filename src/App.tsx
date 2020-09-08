@@ -99,7 +99,7 @@ function ResponsiveDrawer(props: DrawerProps) {
         <div className={classes.toolbar}>
             <Divider />
             <List>
-                <NavLink activeStyle={{ backgroundColor: "#ebebeb" }} to="/">
+                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/">
                     <ListItem button>
                         <ListItemIcon>
                             <TrendingUpIcon />
@@ -107,7 +107,7 @@ function ResponsiveDrawer(props: DrawerProps) {
                         <ListItemText primary="Top Stories" />
                     </ListItem>
                 </NavLink>
-                <NavLink activeStyle={{ backgroundColor: "#ebebeb" }} to="/newest">
+                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/newest">
                     <ListItem button>
                         <ListItemIcon>
                             <FiberNewIcon />
@@ -124,7 +124,7 @@ function ResponsiveDrawer(props: DrawerProps) {
                     </ListSubheader>
                 }
             >
-                <NavLink activeStyle={{ backgroundColor: "#ebebeb" }} to="/ask">
+                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/ask">
                     <ListItem button>
                         <ListItemIcon>
                             <ChatIcon />
@@ -132,7 +132,7 @@ function ResponsiveDrawer(props: DrawerProps) {
                         <ListItemText primary="Ask Stories" />
                     </ListItem>
                 </NavLink>
-                <NavLink activeStyle={{ backgroundColor: "#ebebeb" }} to="/show">
+                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/show">
                     <ListItem button>
                         <ListItemIcon>
                             <VisibilityIcon />
@@ -140,7 +140,7 @@ function ResponsiveDrawer(props: DrawerProps) {
                         <ListItemText primary="Show Stories" />
                     </ListItem>
                 </NavLink>
-                <NavLink activeStyle={{ backgroundColor: "#ebebeb" }} to="/jobs">
+                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/jobs">
                     <ListItem button>
                         <ListItemIcon>
                             <WorkIcon />
@@ -151,7 +151,7 @@ function ResponsiveDrawer(props: DrawerProps) {
             </List>
             <Divider />
             <List>
-                <NavLink activeStyle={{ backgroundColor: "#ebebeb" }} to="/saved">
+                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/saved">
                     <ListItem button>
                         <ListItemIcon>
                             <FavoriteIcon />
@@ -162,7 +162,7 @@ function ResponsiveDrawer(props: DrawerProps) {
             </List>
             <Divider />
             <List>
-                <NavLink activeStyle={{ backgroundColor: "#ebebeb" }} to="/about">
+                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/about">
                     <ListItem button>
                         <ListItemIcon>
                             <InfoIcon />
@@ -170,7 +170,7 @@ function ResponsiveDrawer(props: DrawerProps) {
                         <ListItemText primary="About" />
                     </ListItem>
                 </NavLink>
-                <NavLink activeStyle={{ backgroundColor: "#ebebeb" }} to="/open-source">
+                <NavLink style={{ color: 'black', textDecoration: 'none' }} to="/open-source">
                     <ListItem button>
                         <ListItemIcon>
                             <CodeIcon />
@@ -201,7 +201,7 @@ function ResponsiveDrawer(props: DrawerProps) {
                             <MenuIcon />
                         </IconButton>
                         <Typography variant="body1" noWrap>
-                            Hacker News
+                            Hacker News Reader
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -250,40 +250,25 @@ function ResponsiveDrawer(props: DrawerProps) {
                                 key={uuidv4()}
                             ></Route>
                             <Route
-                                exact
                                 path="/newest"
                                 render={() => <Stories category="newstories" />}
                                 key={uuidv4()}
                             ></Route>
+                            <Route path="/ask" render={() => <Stories category="askstories" />} key={uuidv4()}></Route>
                             <Route
-                                exact
-                                path="/ask"
-                                render={() => <Stories category="askstories" />}
-                                key={uuidv4()}
-                            ></Route>
-                            <Route
-                                exact
                                 path="/show"
                                 render={() => <Stories category="showstories" />}
                                 key={uuidv4()}
                             ></Route>
-                            <Route
-                                exact
-                                path="/jobs"
-                                render={() => <Stories category="jobstories" />}
-                                key={uuidv4()}
-                            ></Route>
-                            <Route exact path="/saved">
+                            <Route path="/jobs" render={() => <Stories category="jobstories" />} key={uuidv4()}></Route>
+                            <Route path="/saved">
                                 <SavedPosts />
                             </Route>
-                            <Route exact path="/item/:id" component={ItemView} />
-                            <Container>
-                                <Route exact path="/user/:id" component={UserView} />
-                                <Route exact path="/open-source" component={OpenSource} />
-                                <Route exact path="/about" component={About} />
-                            </Container>
-                            <Route component={NotFound} />
-                            <Route exact path="/404" component={NotFound} />
+                            <Route path="/item/:id" component={ItemView} />
+                            <Route path="/user/:id" component={UserView} />
+                            <Route path="/open-source" component={OpenSource} />
+                            <Route path="/about" component={About} />
+                            <Route path="/404" component={NotFound} />
                             <Redirect to="/404" />
                         </Switch>
                     </Fragment>

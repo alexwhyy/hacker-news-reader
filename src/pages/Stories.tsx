@@ -25,7 +25,6 @@ import {
 import { CellMeasurerCacheInterface } from 'react-virtualized/dist/es/CellMeasurer';
 
 import Post from '../components/Post';
-import StorySubmission from '../components/StorySubmission';
 
 interface FirebaseItemViewInterface {
 	id: number;

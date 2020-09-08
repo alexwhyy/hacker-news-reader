@@ -88,9 +88,9 @@ const OpenSource = () => {
 	document.title = 'Open Source';
 
 	return (
-		<div className={classes.root}>
-			<Typography variant='h2'>Open Source</Typography>
-			<Typography variant='h5' gutterBottom>
+		<Container className={classes.root}>
+			<Typography variant='h4'>Open Source</Typography>
+			<Typography variant='body1' gutterBottom>
 				Thank you to the developers and companies behind of these open source packages which
 				make this app happen.
 			</Typography>
@@ -120,7 +120,7 @@ const OpenSource = () => {
 					))}
 				</List>
 			</div>
-		</div>
+		</Container>
 	);
 };
 

@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
+import Container from '@material-ui/core/Container';
 
 import { RouteComponentProps } from 'react-router-dom';
 
@@ -61,7 +62,7 @@ const UserView = (props: UserViewProps) => {
 	}, []);
 
 	return (
-		<div className={classes.root}>
+		<Container className={classes.root}>
 			{user ? (
 				<Paper variant="outlined" className={classes.paper}>
 					<Grid container spacing={3}>
@@ -96,7 +97,7 @@ const UserView = (props: UserViewProps) => {
 			) : (
 				<CircularProgress />
 			)}
-		</div>
+		</Container>
 	);
 };
 

@@ -88,7 +88,6 @@ class Posts extends React.Component<PostsPropsInterface, PostStateInterface> {
 	};
 
 	componentDidMount = () => {
-		document.title = 'Hacker News';
 		let URL: string = 'https://hacker-news.firebaseio.com/v0/' + this.props.category + '.json';
 
 		fetch(URL)
@@ -115,7 +114,7 @@ class Posts extends React.Component<PostsPropsInterface, PostStateInterface> {
 						</List>
 					</Fragment>
 				)}
-				<Grid container justify='center'>
+				<Grid container justify='center' style={{ margin: '20px 0'}}>
 					<TablePagination
 						component='div'
 						count={Math.ceil(this.state.allIds.length)}

@@ -37,173 +37,154 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Post from "../components/Post";
 
 interface ItemViewProps extends RouteComponentProps<any> {
-    id: number;
+	id: number;
 }
 
 interface FirebaseItemViewInterface {
-    id: number;
-    deleted: boolean;
-    type: "job" | "story" | "comment" | "poll" | "pollopt";
-    by: string;
-    time: number;
-    text: string;
-    dead: boolean;
-    parent: number;
-    poll: number;
-    kids: number[];
-    url: string;
-    score: number;
-    title: string;
-    parts: number[];
-    descendants: number;
+	id: number;
+	deleted: boolean;
+	type: "job" | "story" | "comment" | "poll" | "pollopt";
+	by: string;
+	time: number;
+	text: string;
+	dead: boolean;
+	parent: number;
+	poll: number;
+	kids: number[];
+	url: string;
+	score: number;
+	title: string;
+	parts: number[];
+	descendants: number;
 }
 
 interface AlgoliaItemViewInterface {
-    id: number;
-    created_at: string;
-    created_at_i: number;
-    type: "job" | "story" | "comment" | "poll" | "pollopt";
-    author: string;
-    title?: string;
-    url?: string;
-    text?: null;
-    points: number;
-    parent_id?: number;
-    children: any;
+	id: number;
+	created_at: string;
+	created_at_i: number;
+	type: "job" | "story" | "comment" | "poll" | "pollopt";
+	author: string;
+	title?: string;
+	url?: string;
+	text?: null;
+	points: number;
+	parent_id?: number;
+	children: any;
 }
 
 interface AlgoliaSearchHitInterface {
-    title: string;
-    url: string;
-    author: string;
-    points: number;
-    story_text: string;
-    comment_text: string;
-    _tags: string[];
-    num_comments: number;
-    objectID: string;
-    _highlightResult: any;
+	title: string;
+	url: string;
+	author: string;
+	points: number;
+	story_text: string;
+	comment_text: string;
+	_tags: string[];
+	num_comments: number;
+	objectID: string;
+	_highlightResult: any;
 }
 
 const commentStyles = makeStyles((theme: Theme) => ({
-    root: {},
-    comment: {
-        padding: theme.spacing(2),
-        margin: theme.spacing(1, 0),
-    },
-    commentChild: {
-        borderLeft: "0px solid #e0e0e0",
-        paddingLeft: "3vw",
-    },
-    hideButton: {
-        transform: "rotate(0deg)",
-    },
-    commentBody: {
-        marginTop: theme.spacing(1),
-        whiteSpace: "pre-wrap",
-        overflow: "auto",
-    },
+	root: {},
+	comment: {
+		padding: theme.spacing(2),
+		margin: theme.spacing(1, 0),
+	},
+	commentChild: {
+		borderLeft: "0px solid #e0e0e0",
+		paddingLeft: "3vw",
+	},
+	hideButton: {
+		transform: "rotate(0deg)",
+	},
+	commentBody: {
+		marginTop: theme.spacing(1),
+		whiteSpace: "pre-wrap",
+		overflow: "auto",
+	},
 }));
 
-/*
-const sanitizeOptions = {
-	allowedTags: ['b', 'i', 'em', 'strong', 'a'],
-	allowedAttributes: {
-		a: ['href']
-	},
-	allowedIframeHostname: ['www.youtube.com']
-};
-
-const sanitize = (dirty: string) => ({
-	__html: sanitizeHtml(dirty, sanitizeOptions)
-});
-
-const SanitizedHTML = (props: { html: string }) => {
-	let { html } = props;
-	return <span dangerouslySetInnerHTML={sanitize(html)} />;
-};
-*/
-
 const Comment = (props: { id: number }) => {
-    const classes = commentStyles();
+	const classes = commentStyles();
 
-    const [item, setItem] = useState<FirebaseItemViewInterface>();
-    const [hide, setHide] = useState<boolean>(false);
-    const [openDebugger, setOpenDebugger] = useState<boolean>(false);
+	const [item, setItem] = useState<FirebaseItemViewInterface>();
+	const [hide, setHide] = useState<boolean>(false);
+	const [openDebugger, setOpenDebugger] = useState<boolean>(false);
 
-    useEffect(() => {
-        const URL: string = "https://hacker-news.firebaseio.com/v0/item/" + props.id + ".json";
-        fetch(URL)
-            .then((response) => response.json())
-            .then((response) => {
-                setItem(response);
-            })
-            .catch((error) => console.log(error));
-    }, []);
+	useEffect(() => {
+		const URL: string = "https://hacker-news.firebaseio.com/v0/item/" + props.id + ".json";
+		fetch(URL)
+			.then((response) => response.json())
+			.then((response) => {
+				setItem(response);
+			})
+			.catch((error) => console.log(error));
+	}, []);
 
-    return (
-        <Fragment>
-            {item ? (
-                <Fragment>
-                    {/* Represents the actual comment itself at the specific
+	return (
+		<Fragment>
+			{item ? (
+				<Fragment>
+					{/* Represents the actual comment itself at the specific
 					instance if it isn't hidden */}
-                    <Paper variant="outlined" className={classes.comment}>
-                        {!item.deleted ? (
-                            <Fragment>
-                                {/* Represents the comment if it hasn't been deleted */}
-                                <Grid container spacing={2}>
-                                    <Grid item>
-                                        <Tooltip title="Toggle Comment" aria-label="toggle">
-                                            <IconButton
-                                                className={classes.hideButton}
-                                                aria-label="hide"
-                                                onClick={() => {
-                                                    // Toggles the hidden comment
-                                                    setHide(!hide);
-                                                }}
-                                            >
-                                                <ArrowDropDownIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant="body1">
-                                            <RouterLink to={`/user/${item.by}`}>{item.by}</RouterLink>
-                                        </Typography>
-                                        <Typography variant="body1" color="textSecondary" gutterBottom>
-                                            {moment.unix(item.time).calendar()}
-                                            {item.kids && (
-                                                <Fragment>
-                                                    {" | "}
-                                                    {item.kids.length} Direct Responses
-                                                </Fragment>
-                                            )}
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
+					<Paper variant="outlined" className={classes.comment}>
+						{!item.deleted ? (
+							<Fragment>
+								{/* Represents the comment if it hasn't been deleted */}
+								<Grid container spacing={2}>
+									<Grid item>
+										<Tooltip title="Toggle Comment" aria-label="toggle">
+											<IconButton
+												className={classes.hideButton}
+												aria-label="hide"
+												onClick={() => {
+													// Toggles the hidden comment
+													setHide(!hide);
+												}}
+											>
+												<ArrowDropDownIcon />
+											</IconButton>
+										</Tooltip>
+									</Grid>
+									<Grid item>
+										<Typography variant="body1">
+											<RouterLink to={`/user/${item.by}`}>{item.by}</RouterLink>
+										</Typography>
+										<Typography variant="body1" color="textSecondary" gutterBottom>
+											{moment.unix(item.time).calendar()}
+											{item.kids && (
+												<Fragment>
+													{" | "}
+													{item.kids.length} Direct Responses
+												</Fragment>
+											)}
+										</Typography>
+									</Grid>
+								</Grid>
 
-                                {/* The actual text of the comment */}
-                                {!hide ? (
-                                    <Typography className={classes.commentBody} variant="body1">
-                                        <span
-                                            dangerouslySetInnerHTML={{
-                                                __html: item.text,
-                                            }}
-                                        />
-                                    </Typography>
-                                ) : null}
-                            </Fragment>
-                        ) : (
-                            <Fragment>
-                                <Typography variant="h6">Comment Deleted</Typography>
-                                <Typography variant="body1" color="textSecondary">
-                                    {moment.unix(item.time).calendar()}
-                                </Typography>
-                            </Fragment>
-                        )}
+								{/* The actual text of the comment */}
+								{!hide ? (
+									<Typography className={classes.commentBody} variant="body1">
+										<span
+											dangerouslySetInnerHTML={{
+												__html: item.text,
+											}}
+										/>
+									</Typography>
+								) : null}
+							</Fragment>
+						) : (
+							<Fragment>
+								<Typography variant="h6">Comment Deleted</Typography>
+								<Typography variant="body1" color="textSecondary">
+									{moment.unix(item.time).calendar()}
+								</Typography>
+							</Fragment>
+						)}
 
-                        {/* Debugging dialogs */}
-                        {/*
+						{/* Debugging dialogs */}
+						{/*
 						<Button
 							variant="outlined"
 							size="small"
@@ -256,224 +237,224 @@ const Comment = (props: { id: number }) => {
 							</DialogActions>
 						</Dialog>
 						*/}
-                    </Paper>
+					</Paper>
 
-                    {/* Represents the replies to the item at the instance */}
-                    {item.kids &&
-                        item.kids.map((id: number) => (
-                            <div key={`comment-${id}`} className={classes.commentChild} hidden={hide}>
-                                <Comment id={id} />
-                            </div>
-                        ))}
-                </Fragment>
-            ) : (
-                <Paper variant="outlined" className={classes.comment}>
-                    <Grid container spacing={2}>
-                        <Grid item>
-                            <Skeleton animation="wave" variant="circle">
-                                <Avatar />
-                            </Skeleton>
-                        </Grid>
-                        <Grid item>
-                            <Skeleton animation="wave" variant="rect" width="150px" height={18} />
-                            <Skeleton
-                                animation="wave"
-                                variant="rect"
-                                width="280px"
-                                height={18}
-                                style={{ marginTop: "10px" }}
-                            />
-                        </Grid>
-                    </Grid>
+					{/* Represents the replies to the item at the instance */}
+					{item.kids &&
+						item.kids.map((id: number) => (
+							<div key={`comment-${id}`} className={classes.commentChild} hidden={hide}>
+								<Comment id={id} />
+							</div>
+						))}
+				</Fragment>
+			) : (
+				<Paper variant="outlined" className={classes.comment}>
+					<Grid container spacing={2}>
+						<Grid item>
+							<Skeleton animation="wave" variant="circle">
+								<Avatar />
+							</Skeleton>
+						</Grid>
+						<Grid item>
+							<Skeleton animation="wave" variant="rect" width="150px" height={18} />
+							<Skeleton
+								animation="wave"
+								variant="rect"
+								width="280px"
+								height={18}
+								style={{ marginTop: "10px" }}
+							/>
+						</Grid>
+					</Grid>
 
-                    <Skeleton
-                        className={classes.commentBody}
-                        animation="wave"
-                        variant="rect"
-                        width="100%"
-                        height={140}
-                    />
-                </Paper>
-            )}
-        </Fragment>
-    );
+					<Skeleton
+						className={classes.commentBody}
+						animation="wave"
+						variant="rect"
+						width="100%"
+						height={140}
+					/>
+				</Paper>
+			)}
+		</Fragment>
+	);
 };
 
 const pollOptionStyles = makeStyles((theme) => ({
-    scoreAvatar: {
-        backgroundColor: "#f26522",
-    },
+	scoreAvatar: {
+		backgroundColor: "#f26522",
+	},
 }));
 
 const PollOption = (props: { id: number }) => {
-    const classes = pollOptionStyles();
-    let [item, setItem] = useState<FirebaseItemViewInterface>();
+	const classes = pollOptionStyles();
+	let [item, setItem] = useState<FirebaseItemViewInterface>();
 
-    useEffect(() => {
-        const URL = "https://hacker-news.firebaseio.com/v0/item/" + props.id + ".json";
-        fetch(URL)
-            .then((response) => response.json())
-            .then((response) => setItem(response));
-    });
+	useEffect(() => {
+		const URL = "https://hacker-news.firebaseio.com/v0/item/" + props.id + ".json";
+		fetch(URL)
+			.then((response) => response.json())
+			.then((response) => setItem(response));
+	});
 
-    return (
-        <Fragment>
-            {item && (
-                <ListItem>
-                    <ListItemAvatar>
-                        <Avatar className={classes.scoreAvatar}>{item.score}</Avatar>
-                    </ListItemAvatar>
-                    <ListItemText primary={item.text} secondary={moment.unix(item.time).calendar()} />
-                </ListItem>
-            )}
-        </Fragment>
-    );
+	return (
+		<Fragment>
+			{item && (
+				<ListItem>
+					<ListItemAvatar>
+						<Avatar className={classes.scoreAvatar}>{item.score}</Avatar>
+					</ListItemAvatar>
+					<ListItemText primary={item.text} secondary={moment.unix(item.time).calendar()} />
+				</ListItem>
+			)}
+		</Fragment>
+	);
 };
 
 const itemHeroOptionStyles = makeStyles((theme) => ({
-    scoreAvatar: {
-        backgroundColor: "#f26522",
-        width: theme.spacing(8),
-        height: theme.spacing(8),
-    },
-    textBody: {
-        marginTop: theme.spacing(2),
-    },
+	scoreAvatar: {
+		backgroundColor: "#f26522",
+		width: theme.spacing(8),
+		height: theme.spacing(8),
+	},
+	textBody: {
+		marginTop: theme.spacing(2),
+	},
 }));
 
 const ItemHero = (props: { firebaseItem: FirebaseItemViewInterface }) => {
-    const classes = itemHeroOptionStyles();
-    let renderedItem;
-    let { firebaseItem } = props;
+	const classes = itemHeroOptionStyles();
+	let renderedItem;
+	let { firebaseItem } = props;
 
-    // Changes what is rendered depending on what type of item is presented through the use of the renderedItem varible
-    switch (firebaseItem.type) {
-        case "job":
-        case "story":
-            renderedItem = (
-                <Fragment>
-                    {/* Only display the score if there is one */}
-                    <Grid container spacing={3}>
-                        {firebaseItem.score && (
-                            <Grid item>
-                                <Avatar className={classes.scoreAvatar}>{firebaseItem.score}</Avatar>
-                            </Grid>
-                        )}
-                        <Grid item>
-                            {firebaseItem.url ? (
-                                <Fragment>
-                                    {" "}
-                                    <Link href={firebaseItem.url} target="_blank">
-                                        <Typography variant="h4">{firebaseItem.title}</Typography>
-                                    </Link>
-                                    <Typography variant="body1" color="textSecondary" gutterBottom>
-                                        ({new URL(firebaseItem.url).hostname})
-                                    </Typography>
-                                </Fragment>
-                            ) : (
-                                <Typography variant="h4">{firebaseItem.title}</Typography>
-                            )}
+	// Changes what is rendered depending on what type of item is presented through the use of the renderedItem varible
+	switch (firebaseItem.type) {
+		case "job":
+		case "story":
+			renderedItem = (
+				<Fragment>
+					{/* Only display the score if there is one */}
+					<Grid container spacing={3}>
+						{firebaseItem.score && (
+							<Grid item>
+								<Avatar className={classes.scoreAvatar}>{firebaseItem.score}</Avatar>
+							</Grid>
+						)}
+						<Grid item>
+							{firebaseItem.url ? (
+								<Fragment>
+									{" "}
+									<Link href={firebaseItem.url} target="_blank">
+										<Typography variant="h4">{firebaseItem.title}</Typography>
+									</Link>
+									<Typography variant="body1" color="textSecondary" gutterBottom>
+										({new URL(firebaseItem.url).hostname})
+									</Typography>
+								</Fragment>
+							) : (
+								<Typography variant="h4">{firebaseItem.title}</Typography>
+							)}
 
-                            <Typography variant="body1" color="textSecondary" gutterBottom>
-                                {"By "}
-                                <RouterLink to={"/user/" + firebaseItem.by}>{firebaseItem.by}</RouterLink>
-                                {" | "}
-                                {moment.unix(firebaseItem.time).calendar()}
-                                {" | " + (firebaseItem.descendants ? firebaseItem.descendants : "0") + " Comments"}
-                            </Typography>
-                        </Grid>
-                    </Grid>
+							<Typography variant="body1" color="textSecondary" gutterBottom>
+								{"By "}
+								<RouterLink to={"/user/" + firebaseItem.by}>{firebaseItem.by}</RouterLink>
+								{" | "}
+								{moment.unix(firebaseItem.time).calendar()}
+								{" | " + (firebaseItem.descendants ? firebaseItem.descendants : "0") + " Comments"}
+							</Typography>
+						</Grid>
+					</Grid>
 
-                    <Typography className={classes.textBody} variant="body1">
-                        <div
-                            dangerouslySetInnerHTML={{
-                                __html: firebaseItem.text,
-                            }}
-                        />
-                    </Typography>
-                </Fragment>
-            );
-            break;
-        case "comment":
-            renderedItem = (
-                <Fragment>
-                    <Typography variant="h4">{firebaseItem.by}</Typography>
-                    <Typography variant="body1" color="textSecondary" gutterBottom>
-                        {moment.unix(firebaseItem.time).calendar()}
-                    </Typography>
-                    <Typography variant="body1">{firebaseItem.text}</Typography>
-                </Fragment>
-            );
-            break;
-        case "poll":
-            renderedItem = (
-                <Fragment>
-                    <Typography variant="h4">{firebaseItem.title}</Typography>
-                    <Typography variant="body1" color="textSecondary" gutterBottom>
-                        {"By "}
-                        <RouterLink to={"/user/" + firebaseItem.by}>{firebaseItem.by}</RouterLink>
-                        {" | "}
-                        {moment.unix(firebaseItem.time).calendar()}
-                        {" | " + (firebaseItem.descendants ? firebaseItem.descendants : "0") + " Comments"}
-                    </Typography>
-                    <List>
-                        {firebaseItem.parts.map((id: number) => (
-                            <PollOption key={"poll-option-" + id} id={id} />
-                        ))}
-                    </List>
-                </Fragment>
-            );
-            break;
-        case "pollopt":
-            renderedItem = (
-                <Grid container spacing={3}>
-                    {firebaseItem.score && (
-                        <Grid item>
-                            <Avatar className={classes.scoreAvatar}>{firebaseItem.score}</Avatar>
-                        </Grid>
-                    )}
-                    <Grid item>
-                        <Typography variant="h4">{firebaseItem.text}</Typography>
-                        <Typography variant="body1" color="textSecondary" gutterBottom>
-                            {"By "}
-                            <RouterLink to={"/user/" + firebaseItem.by}>{firebaseItem.by}</RouterLink>
-                            {" | "}
-                            {moment.unix(firebaseItem.time).calendar()}
-                            {" | "}
-                            <RouterLink to={"/item/" + firebaseItem.poll}>View Poll</RouterLink>
-                        </Typography>
-                    </Grid>
-                </Grid>
-            );
-            break;
-        default:
-            renderedItem = <Typography variant="h4">Unknown Item Type {firebaseItem.type}</Typography>;
-    }
-    return renderedItem;
+					<Typography className={classes.textBody} variant="body1">
+						<div
+							dangerouslySetInnerHTML={{
+								__html: firebaseItem.text,
+							}}
+						/>
+					</Typography>
+				</Fragment>
+			);
+			break;
+		case "comment":
+			renderedItem = (
+				<Fragment>
+					<Typography variant="h4">{firebaseItem.by}</Typography>
+					<Typography variant="body1" color="textSecondary" gutterBottom>
+						{moment.unix(firebaseItem.time).calendar()}
+					</Typography>
+					<Typography variant="body1">{firebaseItem.text}</Typography>
+				</Fragment>
+			);
+			break;
+		case "poll":
+			renderedItem = (
+				<Fragment>
+					<Typography variant="h4">{firebaseItem.title}</Typography>
+					<Typography variant="body1" color="textSecondary" gutterBottom>
+						{"By "}
+						<RouterLink to={"/user/" + firebaseItem.by}>{firebaseItem.by}</RouterLink>
+						{" | "}
+						{moment.unix(firebaseItem.time).calendar()}
+						{" | " + (firebaseItem.descendants ? firebaseItem.descendants : "0") + " Comments"}
+					</Typography>
+					<List>
+						{firebaseItem.parts.map((id: number) => (
+							<PollOption key={"poll-option-" + id} id={id} />
+						))}
+					</List>
+				</Fragment>
+			);
+			break;
+		case "pollopt":
+			renderedItem = (
+				<Grid container spacing={3}>
+					{firebaseItem.score && (
+						<Grid item>
+							<Avatar className={classes.scoreAvatar}>{firebaseItem.score}</Avatar>
+						</Grid>
+					)}
+					<Grid item>
+						<Typography variant="h4">{firebaseItem.text}</Typography>
+						<Typography variant="body1" color="textSecondary" gutterBottom>
+							{"By "}
+							<RouterLink to={"/user/" + firebaseItem.by}>{firebaseItem.by}</RouterLink>
+							{" | "}
+							{moment.unix(firebaseItem.time).calendar()}
+							{" | "}
+							<RouterLink to={"/item/" + firebaseItem.poll}>View Poll</RouterLink>
+						</Typography>
+					</Grid>
+				</Grid>
+			);
+			break;
+		default:
+			renderedItem = <Typography variant="h4">Unknown Item Type {firebaseItem.type}</Typography>;
+	}
+	return renderedItem;
 };
 
 const itemViewStyles = makeStyles((theme) => ({
-    root: {
-        margin: theme.spacing(0, 3),
-        marginTop: theme.spacing(4),
-    },
-    paper: {
-        padding: theme.spacing(2),
-    },
-    ycombinatorButton: {
-        marginTop: theme.spacing(2),
-    },
+	root: {
+		margin: theme.spacing(0, 3),
+		marginTop: theme.spacing(4),
+	},
+	paper: {
+		padding: theme.spacing(2),
+	},
+	ycombinatorButton: {
+		marginTop: theme.spacing(2),
+	},
 }));
 
 const ItemView = (props: ItemViewProps) => {
-    const classes = itemViewStyles();
-    let { id } = useParams();
-    let [firebaseItem, setFirebaseItem] = useState<FirebaseItemViewInterface>();
-    // let [algoliaItem, setAlgoliaItem] = useState<AlgoliaItemViewInterface>();
-    const [relatedItems, setRelatedItems] = useState<number[]>();
+	const classes = itemViewStyles();
+	let { id } = useParams();
+	let [firebaseItem, setFirebaseItem] = useState<FirebaseItemViewInterface>();
+	// let [algoliaItem, setAlgoliaItem] = useState<AlgoliaItemViewInterface>();
+	const [relatedItems, setRelatedItems] = useState<number[]>();
 
-    useEffect(() => {
-        /*
+	useEffect(() => {
+		/*
 		const ALGOLIA_URL =
 			'https://hn.algolia.com/api/v1/items/' + id;
 		fetch(ALGOLIA_URL)
@@ -484,99 +465,93 @@ const ItemView = (props: ItemViewProps) => {
 			});
 		*/
 
-        const FIREBASE_URL = "https://hacker-news.firebaseio.com/v0/item/" + id + ".json";
-        fetch(FIREBASE_URL)
-            .then((itemResponse) => itemResponse.json())
-            .then((itemResponse: FirebaseItemViewInterface) => {
-                setFirebaseItem(itemResponse);
-                console.log(itemResponse);
+		const FIREBASE_URL = "https://hacker-news.firebaseio.com/v0/item/" + id + ".json";
+		fetch(FIREBASE_URL)
+			.then((itemResponse) => itemResponse.json())
+			.then((itemResponse: FirebaseItemViewInterface) => {
+				setFirebaseItem(itemResponse);
+				console.log(itemResponse);
 
-                if (itemResponse.url) {
-                    /*
+				if (itemResponse.url) {
+					const searchQuery: string = itemResponse.title
+						.split(" ")
+						.slice(0, itemResponse.title.split(" ").length / 2)
+						.toString()
+						.replace(/,/g, " ");
+					console.log(searchQuery);
 					const RELATED_ITEMS_SEARCH_URL: string =
-						'http://hn.algolia.com/api/v1/search?query=' +
-						new URL(response.url).hostname +
-						'&restrictSearchableAttributes=url';
-					*/
-                    const searchQuery: string = itemResponse.title
-                        .split(" ")
-                        .slice(0, itemResponse.title.split(" ").length / 2)
-                        .toString()
-                        .replace(/,/g, " ");
-                    console.log(searchQuery);
-                    const RELATED_ITEMS_SEARCH_URL: string =
-                        "https://hn.algolia.com/api/v1/search_by_date?query=" + searchQuery + "&tags=story";
-                    fetch(RELATED_ITEMS_SEARCH_URL)
-                        .then((searchResponse) => {
-                            if (searchResponse.status !== 200) {
-                                alert("Error: " + searchResponse);
-                            }
-                            return searchResponse;
-                        })
-                        .then((searchResponse) => searchResponse.json())
-                        .then((searchResponse) => {
-                            return searchResponse.hits.filter(
-                                (hit: AlgoliaSearchHitInterface) => parseInt(hit.objectID) !== itemResponse.id
-                            );
-                        })
-                        .then((searchResponse: any) => {
-                            setRelatedItems(
-                                searchResponse.map((hit: AlgoliaSearchHitInterface) => {
-                                    if (parseInt(hit.objectID) !== itemResponse.id) {
-                                        return parseInt(hit.objectID);
-                                    }
-                                })
-                            );
-                        });
-                }
-            });
-    }, [id]);
+						"https://hn.algolia.com/api/v1/search_by_date?query=" + searchQuery + "&tags=story";
+					fetch(RELATED_ITEMS_SEARCH_URL)
+						.then((searchResponse) => {
+							if (searchResponse.status !== 200) {
+								alert("Error: " + searchResponse);
+							}
+							return searchResponse;
+						})
+						.then((searchResponse) => searchResponse.json())
+						.then((searchResponse) => {
+							return searchResponse.hits.filter(
+								(hit: AlgoliaSearchHitInterface) => parseInt(hit.objectID) !== itemResponse.id
+							);
+						})
+						.then((searchResponse: any) => {
+							setRelatedItems(
+								searchResponse.map((hit: AlgoliaSearchHitInterface) => {
+									if (parseInt(hit.objectID) !== itemResponse.id) {
+										return parseInt(hit.objectID);
+									}
+								})
+							);
+						});
+				}
+			});
+	}, [id]);
 
-    return (
-        <div className={classes.root}>
-            {firebaseItem ? (
-                <Fragment>
-                    <Helmet>
-                        <title>{firebaseItem.title}</title>
-                    </Helmet>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} md={8}>
-                            <Paper variant="outlined" className={classes.paper}>
-                                {firebaseItem && <ItemHero firebaseItem={firebaseItem} />}
-                            </Paper>
-                            <Fragment>
-                                {/* Since this is the root instance of the item, we need to use map to start off the recursion train */}
-                                {firebaseItem.kids &&
-                                    firebaseItem.kids.map((id: number) => <Comment key={"comment-" + id} id={id} />)}
-                            </Fragment>
-                        </Grid>
-                        {firebaseItem.url && relatedItems && relatedItems.length >= 1 ? (
-                            <Grid item xs={false} md={4}>
-                                <Typography variant="h5">Related Submissions</Typography>
-                                <Typography variant="body1">
-                                    We try to recommend related posts but we sometimes fail catastrophically and in
-                                    really dumb ways.
-                                </Typography>
-                                {relatedItems && (
-                                    <List>
-                                        {relatedItems.map((id: number) => (
-                                            <Fragment key={id}>
-                                                <Post id={id} />
-                                            </Fragment>
-                                        ))}
-                                    </List>
-                                )}
-                            </Grid>
-                        ) : (
-                            <Typography variant="h5">No related articles found.</Typography>
-                        )}
-                    </Grid>
-                </Fragment>
-            ) : (
-                <CircularProgress />
-            )}
-        </div>
-    );
+	return (
+		<div className={classes.root}>
+			{firebaseItem ? (
+				<Fragment>
+					<Helmet>
+						<title>{firebaseItem.title}</title>
+					</Helmet>
+					<Grid container spacing={3}>
+						<Grid item xs={12} md={8}>
+							<Paper variant="outlined" className={classes.paper}>
+								{firebaseItem && <ItemHero firebaseItem={firebaseItem} />}
+							</Paper>
+							<Fragment>
+								{/* Since this is the root instance of the item, we need to use map to start off the recursion train */}
+								{firebaseItem.kids &&
+									firebaseItem.kids.map((id: number) => <Comment key={"comment-" + id} id={id} />)}
+							</Fragment>
+						</Grid>
+						{firebaseItem.url && relatedItems && relatedItems.length >= 1 ? (
+							<Grid item xs={false} md={4}>
+								<Typography variant="h5">Related Submissions</Typography>
+								<Typography variant="body1">
+									We try to recommend related posts but we sometimes fail catastrophically and in
+									really dumb ways.
+								</Typography>
+								{relatedItems && (
+									<List>
+										{relatedItems.map((id: number) => (
+											<Fragment key={id}>
+												<Post id={id} />
+											</Fragment>
+										))}
+									</List>
+								)}
+							</Grid>
+						) : (
+							<Typography variant="h6">No related articles found.</Typography>
+						)}
+					</Grid>
+				</Fragment>
+			) : (
+				<CircularProgress />
+			)}
+		</div>
+	);
 };
 
 export default ItemView;

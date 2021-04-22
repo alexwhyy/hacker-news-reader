@@ -1,22 +1,22 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import Typography from '@material-ui/core/Typography';
-import { ListItem, ListItemText, ListItemAvatar, ListItemSecondaryAction } from '@material-ui/core';
+import React, { useState, useEffect, Fragment } from "react";
+import Typography from "@material-ui/core/Typography";
+import { ListItem, ListItemText, ListItemAvatar, ListItemSecondaryAction } from "@material-ui/core";
 
-import IconButton from '@material-ui/core/IconButton';
-import SaveIcon from '@material-ui/icons/Save';
-import ScheduleIcon from '@material-ui/icons/Schedule';
-import CommentIcon from '@material-ui/icons/Comment';
+import IconButton from "@material-ui/core/IconButton";
+import SaveIcon from "@material-ui/icons/Save";
+import ScheduleIcon from "@material-ui/icons/Schedule";
+import CommentIcon from "@material-ui/icons/Comment";
 
-import Avatar from '@material-ui/core/Avatar';
-import { deepOrange } from '@material-ui/core/colors';
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
-import Skeleton from '@material-ui/lab/Skeleton';
-import Paper from '@material-ui/core/Paper';
+import Avatar from "@material-ui/core/Avatar";
+import { deepOrange } from "@material-ui/core/colors";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import Divider from "@material-ui/core/Divider";
+import Skeleton from "@material-ui/lab/Skeleton";
+import Paper from "@material-ui/core/Paper";
 
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from "react-router-dom";
 
-import moment from 'moment';
+import moment from "moment";
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
@@ -26,14 +26,14 @@ const useStyles = makeStyles((theme: Theme) => ({
 		marginRight: theme.spacing(3),
 		width: theme.spacing(6),
 		height: theme.spacing(6),
-		backgroundColor: '#f26522',
+		backgroundColor: "#f26522",
 	},
 }));
 
 interface FirebaseItemViewInterface {
 	id: number;
 	deleted: boolean;
-	type: 'job' | 'story' | 'comment' | 'poll' | 'pollopt';
+	type: "job" | "story" | "comment" | "poll" | "pollopt";
 	by: string;
 	time: number;
 	text: string;
@@ -53,7 +53,7 @@ const StorySubmission = (props: FirebaseItemViewInterface) => {
 
 	return (
 		<Paper className={classes.root}>
-			<ListItem button component='a' href={props.url} target='_blank'>
+			<ListItem button component="a" href={props.url} target="_blank">
 				<ListItemAvatar>
 					<Avatar className={classes.scoreAvatar}>{props.score}</Avatar>
 				</ListItemAvatar>
@@ -63,7 +63,7 @@ const StorySubmission = (props: FirebaseItemViewInterface) => {
 							{props.title}
 							<Fragment>
 								{props.url && (
-									<Typography variant='body1' color='textSecondary'>
+									<Typography variant="body1" color="textSecondary">
 										({new URL(props.url).hostname})
 									</Typography>
 								)}
@@ -71,27 +71,23 @@ const StorySubmission = (props: FirebaseItemViewInterface) => {
 						</Fragment>
 					}
 					secondary={
-						<Typography variant='body1' color='textSecondary'>
-							{'By '}
-							<RouterLink to={'/user/' + props.by}>{props.by}</RouterLink>
-							{' | '}
+						<Typography variant="body1" color="textSecondary">
+							{"By "}
+							<RouterLink to={"/user/" + props.by}>{props.by}</RouterLink>
+							{" | "}
 							{moment.unix(props.time).calendar()}
-							{' | '}
-							<RouterLink to={'/item/' + props.id}>
+							{" | "}
+							<RouterLink to={"/item/" + props.id}>
 								<Fragment>
-									{props.descendants ? (
-										<Fragment>{props.descendants}</Fragment>
-									) : (
-										'0'
-									)}
-									{' Comments'}
+									{props.descendants ? <Fragment>{props.descendants}</Fragment> : "0"}
+									{" Comments"}
 								</Fragment>
 							</RouterLink>
 						</Typography>
 					}
 				/>
 				<ListItemSecondaryAction>
-					<IconButton edge='end' aria-label='comments'>
+					<IconButton edge="end" aria-label="comments">
 						<SaveIcon />
 					</IconButton>
 				</ListItemSecondaryAction>

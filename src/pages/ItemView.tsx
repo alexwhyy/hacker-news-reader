@@ -3,31 +3,30 @@ import React, { useState, useEffect, Fragment } from "react";
 import { makeStyles, useTheme, Theme, createStyles } from "@material-ui/core/styles";
 import { deepOrange } from "@material-ui/core/colors";
 
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import Skeleton from "@material-ui/lab/Skeleton";
-import Dialog from "@material-ui/core/Dialog";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogActions from "@material-ui/core/DialogActions";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
-import Fab from "@material-ui/core/Fab";
-import Tooltip from "@material-ui/core/Tooltip";
-
-import List from "@material-ui/core/List";
+import {
+	Paper,
+	List,
+	Avatar,
+	Button,
+	CircularProgress,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	Grid,
+	IconButton,
+	Tooltip,
+	Typography,
+} from "@material-ui/core";
+import ArrowDropDownCircleIcon from "@material-ui/icons/ArrowDropDownCircle";
+import { Skeleton, Alert } from "@material-ui/lab";
 
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { monokai } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 import { Helmet } from "react-helmet";
 
-import { Link as RouterLink, RouteComponentProps, withRouter, useParams } from "react-router-dom";
+import { Link as RouterLink, RouteComponentProps, withRouter, useParams, Link } from "react-router-dom";
 
 import moment from "moment";
 import ListItem from "@material-ui/core/ListItem";
@@ -142,7 +141,7 @@ const Comment = (props: { id: number }) => {
 													setHide(!hide);
 												}}
 											>
-												<ArrowDropDownIcon />
+												<ArrowDropDownCircleIcon />
 											</IconButton>
 										</Tooltip>
 									</Grid>
@@ -337,9 +336,9 @@ const ItemHero = (props: { firebaseItem: FirebaseItemViewInterface }) => {
 							{firebaseItem.url ? (
 								<Fragment>
 									{" "}
-									<Link href={firebaseItem.url} target="_blank">
+									<a href={firebaseItem.url} target="_blank">
 										<Typography variant="h4">{firebaseItem.title}</Typography>
-									</Link>
+									</a>
 									<Typography variant="body1" color="textSecondary" gutterBottom>
 										({new URL(firebaseItem.url).hostname})
 									</Typography>
@@ -532,7 +531,7 @@ const ItemView = (props: ItemViewProps) => {
 									)}
 								</Fragment>
 							) : (
-								<Typography variant="h6">No related articles found.</Typography>
+								<Alert severity="error">No related articles found.</Alert>
 							)}
 						</Grid>
 					</Grid>

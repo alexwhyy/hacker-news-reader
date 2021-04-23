@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import PropTypes from "prop-types";
+
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
@@ -212,7 +212,7 @@ function ResponsiveDrawer(props: DrawerProps) {
 							>
 								<MenuIcon />
 							</IconButton>
-							<img src="/static/images/ycombinator-logo.png" style={{ height: "3rem" }}></img>
+							<img src="/static/images/ycombinator-logo.png" style={{ height: 50 }}></img>
 							<Typography variant="body1" noWrap>
 								Prettier Hacker News
 							</Typography>

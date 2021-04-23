@@ -90,7 +90,6 @@ class Posts extends React.Component<PostsPropsInterface, PostStateInterface> {
 
 	componentDidMount = () => {
 		let URL: string = "https://hacker-news.firebaseio.com/v0/" + this.props.category + ".json";
-
 		fetch(URL)
 			.then((response) => response.json())
 			.then((response) =>

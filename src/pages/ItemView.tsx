@@ -88,8 +88,9 @@ interface AlgoliaSearchHitInterface {
 const commentStyles = makeStyles((theme: Theme) => ({
 	root: {},
 	comment: {
+		backgroundColor: theme.palette.common.white,
 		padding: theme.spacing(2),
-		margin: theme.spacing(1, 0),
+		marginBottom: 5,
 	},
 	commentChild: {
 		borderLeft: "0px solid #e0e0e0",
@@ -126,9 +127,7 @@ const Comment = (props: { id: number }) => {
 		<Fragment>
 			{item ? (
 				<Fragment>
-					{/* Represents the actual comment itself at the specific
-					instance if it isn't hidden */}
-					<Paper variant="outlined" className={classes.comment}>
+					<div className={classes.comment}>
 						{!item.deleted ? (
 							<Fragment>
 								{/* Represents the comment if it hasn't been deleted */}
@@ -162,8 +161,6 @@ const Comment = (props: { id: number }) => {
 										</Typography>
 									</Grid>
 								</Grid>
-
-								{/* The actual text of the comment */}
 								{!hide ? (
 									<Typography className={classes.commentBody} variant="body1">
 										<span
@@ -182,63 +179,60 @@ const Comment = (props: { id: number }) => {
 								</Typography>
 							</Fragment>
 						)}
-
-						{/* Debugging dialogs */}
-						{/*
-						<Button
-							variant="outlined"
-							size="small"
-							color="primary"
-							onClick={() => {
-								setOpenDebugger(true);
-							}}
-							style={{ marginTop: '10px' }}
-						>
-							Open Debugger
-						</Button>
-						<Dialog
-							onClose={() => {
-								setOpenDebugger(false);
-							}}
-							aria-labelledby={
-								'comment-debugging-dialog-' + item.id
-							}
-							open={openDebugger}
-							fullWidth
-							maxWidth="md"
-						>
-							<DialogTitle
-								id={'comment-debugging-dialog-' + item.id}
-							>
-								Debugging Dialog
-							</DialogTitle>
-							<DialogContent>
-								<Typography variant="body1">
-									Firebase HN API Response
-								</Typography>
-								<SyntaxHighlighter
-									language="json"
-									style={monokai}
-									showLineNumbers
-								>
-									{JSON.stringify(item, null, '\t')}
-								</SyntaxHighlighter>
-							</DialogContent>
-							<DialogActions>
+						{process.env.NODE_ENV !== "production" && (
+							<Fragment>
 								<Button
-									autoFocus
+									variant="outlined"
+									size="small"
+									color="primary"
 									onClick={() => {
+										setOpenDebugger(true);
+									}}
+									style={{ marginTop: "10px" }}
+								>
+									Debug Comment
+								</Button>
+								<Dialog
+									onClose={() => {
 										setOpenDebugger(false);
 									}}
-									color="primary"
+									aria-labelledby={"comment-debugging-dialog-" + item.id}
+									open={openDebugger}
+									fullWidth
+									maxWidth="md"
 								>
-									Close
-								</Button>
-							</DialogActions>
-						</Dialog>
-						*/}
-					</Paper>
-
+									<DialogTitle id={"comment-debugging-dialog-" + item.id}>
+										Debugging Dialog
+									</DialogTitle>
+									<DialogContent>
+										<Typography variant="body1">Firebase HN API Response</Typography>
+										<pre
+											style={{
+												fontFamily: "monospace",
+												backgroundColor: "#212121",
+												color: "#83eb34",
+												overflow: "auto",
+												padding: 20,
+											}}
+										>
+											{JSON.stringify(item, null, "\t")}
+										</pre>
+									</DialogContent>
+									<DialogActions>
+										<Button
+											autoFocus
+											onClick={() => {
+												setOpenDebugger(false);
+											}}
+											color="primary"
+										>
+											Close
+										</Button>
+									</DialogActions>
+								</Dialog>
+							</Fragment>
+						)}
+					</div>
 					{/* Represents the replies to the item at the instance */}
 					{item.kids &&
 						item.kids.map((id: number) => (
@@ -248,7 +242,7 @@ const Comment = (props: { id: number }) => {
 						))}
 				</Fragment>
 			) : (
-				<Paper variant="outlined" className={classes.comment}>
+				<div className={classes.comment}>
 					<Grid container spacing={2}>
 						<Grid item>
 							<Skeleton animation="wave" variant="circle">
@@ -266,7 +260,6 @@ const Comment = (props: { id: number }) => {
 							/>
 						</Grid>
 					</Grid>
-
 					<Skeleton
 						className={classes.commentBody}
 						animation="wave"
@@ -274,7 +267,7 @@ const Comment = (props: { id: number }) => {
 						width="100%"
 						height={140}
 					/>
-				</Paper>
+				</div>
 			)}
 		</Fragment>
 	);
@@ -354,7 +347,6 @@ const ItemHero = (props: { firebaseItem: FirebaseItemViewInterface }) => {
 							) : (
 								<Typography variant="h4">{firebaseItem.title}</Typography>
 							)}
-
 							<Typography variant="body1" color="textSecondary" gutterBottom>
 								{"By "}
 								<RouterLink to={"/user/" + firebaseItem.by}>{firebaseItem.by}</RouterLink>
@@ -435,11 +427,11 @@ const ItemHero = (props: { firebaseItem: FirebaseItemViewInterface }) => {
 
 const itemViewStyles = makeStyles((theme) => ({
 	root: {
-		margin: theme.spacing(0, 3),
-		marginTop: theme.spacing(4),
+		marginTop: theme.spacing(1),
+		maxWidth: "100vw",
 	},
 	paper: {
-		padding: theme.spacing(2),
+		padding: theme.spacing(1),
 	},
 	ycombinatorButton: {
 		marginTop: theme.spacing(2),
@@ -447,6 +439,8 @@ const itemViewStyles = makeStyles((theme) => ({
 }));
 
 const ItemView = (props: ItemViewProps) => {
+	const theme = useTheme();
+
 	const classes = itemViewStyles();
 	let { id } = useParams();
 	let [firebaseItem, setFirebaseItem] = useState<FirebaseItemViewInterface>();
@@ -513,38 +507,34 @@ const ItemView = (props: ItemViewProps) => {
 				<Fragment>
 					<Helmet>
 						<title>{firebaseItem.title}</title>
+						<meta name="og:title" content={firebaseItem.title}></meta>
 					</Helmet>
-					<Grid container spacing={3}>
-						<Grid item xs={12} md={8}>
-							<Paper variant="outlined" className={classes.paper}>
+					<Grid container spacing={1} style={{ width: "100%" }}>
+						<Grid item xs={12} md={9}>
+							<div style={{ padding: theme.spacing(2), backgroundColor: "white", marginBottom: 4 }}>
 								{firebaseItem && <ItemHero firebaseItem={firebaseItem} />}
-							</Paper>
-							<Fragment>
-								{/* Since this is the root instance of the item, we need to use map to start off the recursion train */}
-								{firebaseItem.kids &&
-									firebaseItem.kids.map((id: number) => <Comment key={"comment-" + id} id={id} />)}
-							</Fragment>
+							</div>
+							{/* Since this is the root instance of the item, we need to use map to start off the recursion train */}
+							{firebaseItem.kids && firebaseItem.kids.map((id: number) => <Comment key={id} id={id} />)}
 						</Grid>
-						{firebaseItem.url && relatedItems && relatedItems.length >= 1 ? (
-							<Grid item xs={false} md={4}>
-								<Typography variant="h5">Related Submissions</Typography>
-								<Typography variant="body1">
-									We try to recommend related posts but we sometimes fail catastrophically and in
-									really dumb ways.
-								</Typography>
-								{relatedItems && (
-									<List>
-										{relatedItems.map((id: number) => (
-											<Fragment key={id}>
-												<Post id={id} />
-											</Fragment>
-										))}
-									</List>
-								)}
-							</Grid>
-						) : (
-							<Typography variant="h6">No related articles found.</Typography>
-						)}
+						<Grid item xs={false} md={3}>
+							{firebaseItem.url && relatedItems && relatedItems.length >= 1 ? (
+								<Fragment>
+									<Typography variant="h5">Related Submissions</Typography>
+									{relatedItems && (
+										<List>
+											{relatedItems.map((id: number) => (
+												<Fragment key={id}>
+													<Post id={id} />
+												</Fragment>
+											))}
+										</List>
+									)}
+								</Fragment>
+							) : (
+								<Typography variant="h6">No related articles found.</Typography>
+							)}
+						</Grid>
 					</Grid>
 				</Fragment>
 			) : (

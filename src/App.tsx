@@ -39,6 +39,9 @@ const drawerWidth = 240;
 
 const yCombinatorTheme = createMuiTheme({
 	palette: {
+		background: {
+			default: "#f7f7f7",
+		},
 		primary: {
 			main: "#f26522",
 		},

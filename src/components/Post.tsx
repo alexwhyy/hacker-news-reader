@@ -22,7 +22,8 @@ import moment from "moment";
 
 const useStyles = makeStyles((theme: Theme) => ({
 	root: {
-		margin: theme.spacing(1, 0),
+		backgroundColor: "white",
+		borderBottom: "1px solid #d9d9d9",
 	},
 	scoreAvatar: {
 		marginRight: theme.spacing(3),
@@ -74,7 +75,7 @@ const Post = ({ id }: { id: number }) => {
 	// <NUMBER: points> points by <STRING: username> <NUMBER: hours> hour ago | hide | past | web | favorite | <NUMBER: comments> comments
 	return (
 		<Fragment>
-			<Paper variant="outlined" className={classes.root} style={{ margin: "5px 0px" }}>
+			<div className={classes.root}>
 				{post && savedPosts ? (
 					<ListItem button component="a" href={post.url ? post.url : `/item/${post.id}`} target="_blank">
 						<ListItemAvatar>
@@ -138,7 +139,7 @@ const Post = ({ id }: { id: number }) => {
 						/>
 					</ListItem>
 				)}
-			</Paper>
+			</div>
 			<Snackbar open={snackbarOpen} autoHideDuration={3000} onClose={() => setSnackbarOpen(false)}>
 				<Alert onClose={() => setSnackbarOpen(false)} severity="success">
 					Post saved to local storage.

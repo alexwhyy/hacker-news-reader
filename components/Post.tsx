@@ -5,7 +5,22 @@ import moment from "moment";
 
 import UserLink from "./UserLink";
 
-export default function Post(props) {
+interface PostProps {
+  id: number;
+  title: string;
+  by: string;
+  url: string;
+  deleted: boolean;
+  type: "job" | "story" | "comment" | "poll" | "pollopt";
+  time: number;
+  text: string;
+  dead: boolean;
+  descendants: number;
+  score: number;
+  kids: PostProps[];
+}
+
+export default function Post(props: PostProps) {
   const theme = useTheme();
 
   return (

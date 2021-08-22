@@ -1,3 +1,4 @@
+import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 
@@ -24,9 +25,18 @@ export default function User(props) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const user = await (await axios.get(`${process.env.HACKER_NEWS_API_ENDPOINT}/v0/user/${context.query.id}.json`)).data;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const user = await (
+    await axios.get(
+      `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/user/${encodeURIComponent(String(context.query.id))}.json`
+    )
+  ).data;
+
+  if (!user) {
+    return { notFound: true };
+  }
+
   return {
     props: { user },
   };
-}
+};

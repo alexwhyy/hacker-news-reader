@@ -21,24 +21,26 @@ export default function Item(props) {
         <meta property="og:title" content={props.item.title} />
       </Head>
       <Navbar />
-      <Container>
-        <div css={{ margin: "30px 0" }}>
-          <h1 css={{ color: "black" }}>
+      <div>
+        <Container style={{ padding: "30px 0", borderBottom: "1px solid #eaeaea" }}>
+          <h2 css={{ color: "black" }}>
             <a href={props.item.url}>{props.item.title}</a>{" "}
             {props.item.url && (
-              <span css={{ fontSize: "1rem", fontWeight: 400, color: "gray" }}>
+              <span css={{ fontSize: "1.5rem", fontWeight: 500, color: "gray" }}>
                 ({new URL(props.item.url).hostname})
               </span>
             )}
-          </h1>
-          <p>
+          </h2>
+          <h5>
             Posted by <UserLink name={props.item.by} /> on {moment.unix(props.item.time).format("LLLL")}
-          </p>
+          </h5>
+        </Container>
+        <Container style={{ padding: "30px 0" }}>
           {props.comments.map((comment) => (
             <Comment key={comment.id} {...comment} />
           ))}
-        </div>
-      </Container>
+        </Container>
+      </div>
     </div>
   );
 }
@@ -52,8 +54,19 @@ async function fetchItem(id: number) {
   return item;
 }
 
-export async function getServerSideProps(context) {
-  const item = await (await axios.get(`${process.env.HACKER_NEWS_API_ENDPOINT}/v0/item/${context.query.id}.json`)).data;
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const item = await (
+    await axios.get(
+      `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/item/${encodeURIComponent(String(context.query.id))}.json`
+    )
+  ).data;
+
+  if (!item) {
+    return {
+      notFound: true,
+    };
+  }
+
   let comments = [];
   if (item.kids) {
     comments = await Promise.all(item.kids.map(async (id: number) => await fetchItem(id)));
@@ -62,4 +75,4 @@ export async function getServerSideProps(context) {
   return {
     props: { item, comments },
   };
-}
+};

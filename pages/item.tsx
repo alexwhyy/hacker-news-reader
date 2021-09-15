@@ -2,6 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
 
+import sanitizeHtml from "sanitize-html";
 import { useTheme } from "@geist-ui/react";
 import axios from "axios";
 import moment from "moment";
@@ -34,6 +35,12 @@ export default function Item(props) {
           <h5>
             Posted by <UserLink name={props.item.by} /> on {moment.unix(props.item.time).format("LLLL")}
           </h5>
+          {props.item.text && (
+            <div
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(props.item.text) }}
+              css={{ marginTop: 30, color: theme.palette.accents_5 }}
+            ></div>
+          )}
         </Container>
         <Container style={{ padding: "30px 0" }}>
           {props.comments.map((comment) => (
@@ -45,11 +52,15 @@ export default function Item(props) {
   );
 }
 
-// Recursive helper fucntion for getting comments
+// Recursive helper function for getting comments
 async function fetchItem(id: number) {
   let item = await (await axios.get(`${process.env.HACKER_NEWS_API_ENDPOINT}/v0/item/${id}.json`)).data;
+  if (!item) {
+    // Sometimes this happens when the API doesn't return the comment for some reason
+    return null;
+  }
   if (item.kids) {
-    item.kids = await Promise.all(item.kids.map((id: number) => fetchItem(id)));
+    item.kids = await (await Promise.all(item.kids.map((id: number) => fetchItem(id)))).filter((item) => item != null);
   }
   return item;
 }
@@ -68,9 +79,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   let comments = [];
-  if (item.kids) {
-    comments = await Promise.all(item.kids.map(async (id: number) => await fetchItem(id)));
-  }
+  comments = await Promise.all(item.kids.map(async (id: number) => await fetchItem(id)));
 
   return {
     props: { item, comments },

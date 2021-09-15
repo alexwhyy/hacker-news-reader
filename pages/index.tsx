@@ -27,6 +27,8 @@ export default function Home(props) {
       <Head>
         <title>Prettier Hacker News</title>
         <meta property="og:title" content="Prettier Hacker News" />
+        <meta property="description" content="Read Hacker News in a clean, slick, and modern interface." />
+        <meta property="og:description" content="Read Hacker News in a clean, slick, and modern interface." />
       </Head>
       <Navbar />
       <div css={{ margin: "20px 0" }}>

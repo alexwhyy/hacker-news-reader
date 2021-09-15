@@ -1,7 +1,5 @@
 # Prettier Hacker News
 
-Initially created on Saturday, June 13th, 2020
+A slick, fresh, and clean way to read Hacker News.
 
-![Jobs Demo](public/static/images/jobs-demo.png)
-
-![Item View Demo](public/static/images/item-view-demo.png)
+Version 1.0 was released on June 13th, 2020. Version 2.0, featuring a new minimalist design, was released on August 22nd, 2021.

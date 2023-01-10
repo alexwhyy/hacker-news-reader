@@ -66,7 +66,7 @@ export default function Post(props: PostProps) {
           </Tooltip>{" "}
           ·{" "}
           <Link href={`/item?id=${props.id}`}>
-            <a>{props.descendants || 0} comments</a>
+            {props.descendants || 0} comments
           </Link>
         </section>
       </div>

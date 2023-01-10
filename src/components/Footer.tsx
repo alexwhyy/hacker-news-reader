@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <div
-      css={{
+      style={{
         display: "flex",
         justifyContent: "center",
         padding: 10,

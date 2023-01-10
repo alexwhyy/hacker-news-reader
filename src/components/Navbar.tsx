@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Navbar(props) {
   return (
     <div
-      css={{
+      style={{
         display: "flex",
         alignItems: "center",
         columnGap: 10,
@@ -17,9 +17,9 @@ export default function Navbar(props) {
         src="/static/images/logo.png"
         width={30}
         height={30}
-        css={{ width: 30, height: 30 }}
+        style={{ width: 30, height: 30 }}
       />
-      <div css={{ fontSize: "1rem", fontWeight: 600 }}>
+      <div style={{ fontSize: "1rem", fontWeight: 600 }}>
         Prettier Hacker News
       </div>
     </div>

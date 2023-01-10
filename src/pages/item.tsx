@@ -3,7 +3,7 @@ import Link from "next/link";
 import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
 
 import sanitizeHtml from "sanitize-html";
-import { useTheme } from "@geist-ui/react";
+import { useTheme } from "@geist-ui/core";
 import axios from "axios";
 import moment from "moment";
 
@@ -26,11 +26,11 @@ export default function Item(props) {
         <Container
           style={{ padding: "30px 0", borderBottom: "1px solid #eaeaea" }}
         >
-          <h2 css={{ color: "black" }}>
+          <h2 style={{ color: "black" }}>
             <a href={props.item.url}>{props.item.title}</a>{" "}
             {props.item.url && (
               <span
-                css={{ fontSize: "1.5rem", fontWeight: 500, color: "gray" }}
+                style={{ fontSize: "1.5rem", fontWeight: 500, color: "gray" }}
               >
                 ({new URL(props.item.url).hostname})
               </span>
@@ -45,7 +45,7 @@ export default function Item(props) {
               dangerouslySetInnerHTML={{
                 __html: sanitizeHtml(props.item.text),
               }}
-              css={{ marginTop: 30, color: theme.palette.accents_5 }}
+              style={{ marginTop: 30, color: theme.palette.accents_5 }}
             ></div>
           )}
         </Container>

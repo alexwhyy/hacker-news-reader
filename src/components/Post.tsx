@@ -25,7 +25,7 @@ export default function Post(props: PostProps) {
 
   return (
     <div
-      css={{
+      style={{
         display: "grid",
         gridTemplateColumns: "60px 1fr",
         alignItems: "center",
@@ -37,7 +37,7 @@ export default function Post(props: PostProps) {
       }}
     >
       <div
-        css={{
+        style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -50,20 +50,20 @@ export default function Post(props: PostProps) {
       >
         {props.score}
       </div>
-      <div css={{ padding: 10 }}>
+      <div style={{ padding: 10 }}>
         <section>
           <a href={props.url}>
-            <div css={{ color: "black", fontWeight: 500 }}>
+            <div style={{ color: "black", fontWeight: 500 }}>
               {props.title}{" "}
               {props.url && (
-                <span css={{ color: "gray", fontWeight: 400 }}>
+                <span style={{ color: "gray", fontWeight: 400 }}>
                   ({new URL(props.url).hostname})
                 </span>
               )}
             </div>
           </a>
         </section>
-        <section css={{ fontSize: "0.9rem" }}>
+        <section style={{ fontSize: "0.9rem" }}>
           Posted by <UserLink name={props.by} /> ·{" "}
           <Tooltip text={moment.unix(props.time).format("LLLL")} type="dark">
             {moment.unix(props.time).calendar()}

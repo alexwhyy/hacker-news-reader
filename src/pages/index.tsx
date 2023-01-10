@@ -37,7 +37,7 @@ export default function Home(props) {
         />
       </Head>
       <Navbar />
-      <div css={{ margin: "20px 0" }}>
+      <div style={{ margin: "20px 0" }}>
         <Container>
           <div style={{ display: "flex", flexDirection: "column", rowGap: 10 }}>
             {props.topStories.map((story) => (
@@ -45,7 +45,7 @@ export default function Home(props) {
             ))}
           </div>
           <div
-            css={{
+            style={{
               display: "flex",
               justifyContent: "center",
               margin: "10px 0",

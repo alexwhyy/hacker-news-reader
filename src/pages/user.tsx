@@ -1,15 +1,13 @@
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import Link from "next/link";
 
-import { useTheme } from "@geist-ui/react";
+import { useTheme } from "@geist-ui/core";
 import sanitizeHtml from "sanitize-html";
 import axios from "axios";
 import moment from "moment";
 
 import Container from "../components/Container";
 import Navbar from "../components/Navbar";
-import Post from "../components/Post";
 
 export default function User(props) {
   const theme = useTheme();
@@ -22,7 +20,7 @@ export default function User(props) {
       </Head>
       <Navbar />
       <Container>
-        <header css={{ margin: "30px 0" }}>
+        <header style={{ margin: "30px 0" }}>
           <h2>{props.user.id}</h2>
           <p>{props.user.karma} karma</p>
           <p>Created on {moment.unix(props.user.created).format("LLLL")}</p>
@@ -30,7 +28,7 @@ export default function User(props) {
         {props.user.about && (
           <div
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(props.user.about) }}
-            css={{ color: theme.palette.accents_5 }}
+            style={{ color: theme.palette.accents_5 }}
           ></div>
         )}
       </Container>

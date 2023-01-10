@@ -11,8 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.5",
-    "@geist-ui/react": "^2.2.5",
+    "@geist-ui/core": "^2.3.8",
     "@geist-ui/react-icons": "^1.0.1",
     "axios": "^1.2.2",
     "eslint-plugin-react-hooks": "^4.6.0",

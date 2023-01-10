@@ -42,17 +42,16 @@ export default function Comment(props: CommentProps) {
     <div id={String(props.id)}>
       <h6>
         <UserLink name={props.by} /> ·{" "}
-        <span css={{ fontWeight: 400 }}>
+        <span style={{ fontWeight: 400 }}>
           {moment.unix(props.time).calendar()}
         </span>{" "}
         ·
         <span
           onClick={toggleKidsHidden}
-          css={{
+          style={{
             padding: 5,
             cursor: "pointer",
             borderRadius: 5,
-            "&:hover": { backgroundColor: theme.palette.accents_2 },
           }}
         >
           Toggle
@@ -62,7 +61,7 @@ export default function Comment(props: CommentProps) {
         <>
           <div dangerouslySetInnerHTML={{ __html: sanitizedText }} />
           <div
-            css={{
+            style={{
               display: "flex",
               flexDirection: "column",
               rowGap: 10,

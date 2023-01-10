@@ -1,4 +1,4 @@
-import { Grid } from "@geist-ui/react";
+import { Grid } from "@geist-ui/core";
 
 export default function Container(props) {
   return (

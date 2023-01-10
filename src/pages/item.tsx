@@ -1,16 +1,13 @@
-import Head from "next/head";
-import Link from "next/link";
-import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
-
-import sanitizeHtml from "sanitize-html";
 import { useTheme } from "@geist-ui/core";
 import axios from "axios";
 import moment from "moment";
-
+import { GetServerSideProps } from "next";
+import Head from "next/head";
+import sanitizeHtml from "sanitize-html";
 import Comment from "../components/Comment";
-import UserLink from "../components/UserLink";
 import Container from "../components/Container";
 import Navbar from "../components/Navbar";
+import UserLink from "../components/UserLink";
 
 export default function Item(props) {
   const theme = useTheme();
@@ -71,7 +68,7 @@ async function fetchItem(id: number) {
     return null;
   }
   if (item.kids) {
-    item.kids = await (
+    item.kids = (
       await Promise.all(item.kids.map((id: number) => fetchItem(id)))
     ).filter((item) => item != null);
   }

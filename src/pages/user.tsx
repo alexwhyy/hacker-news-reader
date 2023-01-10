@@ -1,11 +1,9 @@
-import { GetServerSideProps } from "next";
-import Head from "next/head";
-
 import { useTheme } from "@geist-ui/core";
-import sanitizeHtml from "sanitize-html";
 import axios from "axios";
 import moment from "moment";
-
+import { GetServerSideProps } from "next";
+import Head from "next/head";
+import sanitizeHtml from "sanitize-html";
 import Container from "../components/Container";
 import Navbar from "../components/Navbar";
 

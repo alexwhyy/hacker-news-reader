@@ -1,20 +1,12 @@
-import { useState, useCallback } from "react";
-
-import { GetStaticProps, GetStaticPaths, GetServerSideProps } from "next";
-import Error from "next/error";
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
-
-import { Pagination, Card, Button, Tooltip, useTheme } from "@geist-ui/react";
-
+import { Pagination, useTheme } from "@geist-ui/core";
 import axios from "axios";
-import moment from "moment";
-
-import Post from "../components/Post";
+import { GetServerSideProps } from "next";
+import Head from "next/head";
+import { useRouter } from "next/router";
 import Container from "../components/Container";
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Navbar from "../components/Navbar";
+import Post from "../components/Post";
 
 const ITEMS_PER_PAGE = 30;
 
@@ -65,7 +57,7 @@ export default function Home(props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  var page: number;
+  let page: number;
   if (context.query.p) {
     page = parseInt(String(context.query.p));
   } else {

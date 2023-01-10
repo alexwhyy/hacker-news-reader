@@ -1,9 +1,7 @@
-import { useState, useCallback } from "react";
-
-import { Note, useTheme } from "@geist-ui/react";
+import { useTheme } from "@geist-ui/core";
 import moment from "moment";
+import { useState, useCallback } from "react";
 import sanitizeHtml from "sanitize-html";
-
 import UserLink from "./UserLink";
 
 const sanitizeOptions = {

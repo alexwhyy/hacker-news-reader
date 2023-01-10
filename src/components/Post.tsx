@@ -1,8 +1,6 @@
-import Link from "next/link";
-
-import { Tooltip, useTheme } from "@geist-ui/react";
+import { Tooltip, useTheme } from "@geist-ui/core";
 import moment from "moment";
-
+import Link from "next/link";
 import UserLink from "./UserLink";
 
 interface PostProps {
@@ -31,9 +29,6 @@ export default function Post(props: PostProps) {
         alignItems: "center",
         transition: "0.3s",
         borderRadius: 5,
-        "&:hover": {
-          backgroundColor: theme.palette.accents_2,
-        },
       }}
     >
       <div

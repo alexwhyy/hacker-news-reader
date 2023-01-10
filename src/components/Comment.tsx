@@ -41,7 +41,11 @@ export default function Comment(props: CommentProps) {
   return (
     <div id={String(props.id)}>
       <h6>
-        <UserLink name={props.by} /> · <span css={{ fontWeight: 400 }}>{moment.unix(props.time).calendar()}</span> ·
+        <UserLink name={props.by} /> ·{" "}
+        <span css={{ fontWeight: 400 }}>
+          {moment.unix(props.time).calendar()}
+        </span>{" "}
+        ·
         <span
           onClick={toggleKidsHidden}
           css={{

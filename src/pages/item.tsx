@@ -23,21 +23,28 @@ export default function Item(props) {
       </Head>
       <Navbar />
       <div>
-        <Container style={{ padding: "30px 0", borderBottom: "1px solid #eaeaea" }}>
+        <Container
+          style={{ padding: "30px 0", borderBottom: "1px solid #eaeaea" }}
+        >
           <h2 css={{ color: "black" }}>
             <a href={props.item.url}>{props.item.title}</a>{" "}
             {props.item.url && (
-              <span css={{ fontSize: "1.5rem", fontWeight: 500, color: "gray" }}>
+              <span
+                css={{ fontSize: "1.5rem", fontWeight: 500, color: "gray" }}
+              >
                 ({new URL(props.item.url).hostname})
               </span>
             )}
           </h2>
           <h5>
-            Posted by <UserLink name={props.item.by} /> on {moment.unix(props.item.time).format("LLLL")}
+            Posted by <UserLink name={props.item.by} /> on{" "}
+            {moment.unix(props.item.time).format("LLLL")}
           </h5>
           {props.item.text && (
             <div
-              dangerouslySetInnerHTML={{ __html: sanitizeHtml(props.item.text) }}
+              dangerouslySetInnerHTML={{
+                __html: sanitizeHtml(props.item.text),
+              }}
               css={{ marginTop: 30, color: theme.palette.accents_5 }}
             ></div>
           )}
@@ -54,13 +61,19 @@ export default function Item(props) {
 
 // Recursive helper function for getting comments
 async function fetchItem(id: number) {
-  let item = await (await axios.get(`${process.env.HACKER_NEWS_API_ENDPOINT}/v0/item/${id}.json`)).data;
+  let item = await (
+    await axios.get(
+      `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/item/${id}.json`
+    )
+  ).data;
   if (!item) {
     // Sometimes this happens when the API doesn't return the comment for some reason
     return null;
   }
   if (item.kids) {
-    item.kids = await (await Promise.all(item.kids.map((id: number) => fetchItem(id)))).filter((item) => item != null);
+    item.kids = await (
+      await Promise.all(item.kids.map((id: number) => fetchItem(id)))
+    ).filter((item) => item != null);
   }
   return item;
 }
@@ -68,7 +81,9 @@ async function fetchItem(id: number) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const item = await (
     await axios.get(
-      `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/item/${encodeURIComponent(String(context.query.id))}.json`
+      `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/item/${encodeURIComponent(
+        String(context.query.id)
+      )}.json`
     )
   ).data;
 
@@ -79,7 +94,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   }
 
   let comments = [];
-  comments = await Promise.all(item.kids.map(async (id: number) => await fetchItem(id)));
+  comments = await Promise.all(
+    item.kids.map(async (id: number) => await fetchItem(id))
+  );
 
   return {
     props: { item, comments },

@@ -41,7 +41,9 @@ export default function User(props) {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   let user = await (
     await axios.get(
-      `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/user/${encodeURIComponent(String(context.query.id))}.json`
+      `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/user/${encodeURIComponent(
+        String(context.query.id)
+      )}.json`
     )
   ).data;
   if (!user) {

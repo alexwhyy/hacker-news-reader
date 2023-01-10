@@ -55,7 +55,11 @@ export default function Post(props: PostProps) {
           <a href={props.url}>
             <div css={{ color: "black", fontWeight: 500 }}>
               {props.title}{" "}
-              {props.url && <span css={{ color: "gray", fontWeight: 400 }}>({new URL(props.url).hostname})</span>}
+              {props.url && (
+                <span css={{ color: "gray", fontWeight: 400 }}>
+                  ({new URL(props.url).hostname})
+                </span>
+              )}
             </div>
           </a>
         </section>

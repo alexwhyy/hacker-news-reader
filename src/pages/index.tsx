@@ -27,8 +27,14 @@ export default function Home(props) {
       <Head>
         <title>Prettier Hacker News</title>
         <meta property="og:title" content="Prettier Hacker News" />
-        <meta property="description" content="Read Hacker News in a clean, slick, and modern interface." />
-        <meta property="og:description" content="Read Hacker News in a clean, slick, and modern interface." />
+        <meta
+          property="description"
+          content="Read Hacker News in a clean, slick, and modern interface."
+        />
+        <meta
+          property="og:description"
+          content="Read Hacker News in a clean, slick, and modern interface."
+        />
       </Head>
       <Navbar />
       <div css={{ margin: "20px 0" }}>
@@ -38,7 +44,13 @@ export default function Home(props) {
               <Post key={story.id} {...story} />
             ))}
           </div>
-          <div css={{ display: "flex", justifyContent: "center", margin: "10px 0" }}>
+          <div
+            css={{
+              display: "flex",
+              justifyContent: "center",
+              margin: "10px 0",
+            }}
+          >
             <Pagination
               count={Math.ceil(props.ids.length / ITEMS_PER_PAGE)}
               initialPage={props.page}
@@ -59,13 +71,21 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   } else {
     page = 1;
   }
-  let URL: string = `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/` + "topstories" + ".json";
+  let URL: string =
+    `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/` + "topstories" + ".json";
   const topStoriesIds: number[] = await (await axios.get(URL)).data;
   const pointer: number = ITEMS_PER_PAGE * (page - 1);
   const topStories: any[] = await Promise.all(
     topStoriesIds
       .slice(pointer, pointer + ITEMS_PER_PAGE)
-      .map(async (id) => await (await axios.get(`${process.env.HACKER_NEWS_API_ENDPOINT}/v0/item/${id}.json`)).data)
+      .map(
+        async (id) =>
+          await (
+            await axios.get(
+              `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/item/${id}.json`
+            )
+          ).data
+      )
   );
 
   if (topStories.length === 0) {

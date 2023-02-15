@@ -19,7 +19,7 @@ interface PostProps {
 export default function Post(props: PostProps) {
   return (
     <div className="flex space-x-4">
-      <div className="flex items-center justify-center w-12 shrink-0 bg-gray-100 text-sm">
+      <div className="flex w-12 shrink-0 items-center justify-center bg-gray-100 text-sm">
         {props.score}
       </div>
       <div>

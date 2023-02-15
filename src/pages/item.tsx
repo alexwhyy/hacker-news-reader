@@ -17,7 +17,7 @@ export default function Item(props) {
         <meta property="og:title" content={item.title} />
       </Head>
       <Layout>
-        <div className="px-4 md:px-7 py-5">
+        <div className="px-4 py-5 md:px-7">
           <div className="mb-1">
             <a className="text-lg hover:underline" href={item.url}>
               {item.title}

@@ -16,7 +16,7 @@ export default function Comment(props) {
 
   return (
     <div id={String(comment.id)}>
-      <div className="text-sm text-gray-600 mb-2">
+      <div className="mb-2 text-sm text-gray-600">
         <Link href={`/user?id=${comment.author}`}>{comment.author}</Link> ·{" "}
         <span>{moment(comment.created_at).calendar()}</span> ·{" "}
         <span
@@ -34,7 +34,7 @@ export default function Comment(props) {
               __html: sanitizeHtml(comment.text, sanitizeOptions),
             }}
           />
-          <div className="ml-10 my-5">
+          <div className="my-5 ml-10">
             {comment.children?.map((comment) => (
               <Comment key={comment.id} comment={comment} />
             ))}

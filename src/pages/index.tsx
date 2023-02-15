@@ -25,7 +25,7 @@ export default function Home(props) {
         />
       </Head>
       <Layout>
-        <div className="p-5 flex flex-col space-y-4">
+        <div className="flex flex-col space-y-4 p-5">
           {props.topStories.map((story) => (
             <Post key={story.id} {...story} />
           ))}

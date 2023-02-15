@@ -1,4 +1,5 @@
 import moment from "moment";
+import Link from "next/link";
 import { useState } from "react";
 import sanitizeHtml from "sanitize-html";
 
@@ -16,7 +17,7 @@ export default function Comment(props) {
   return (
     <div id={String(comment.id)}>
       <div className="text-sm text-gray-600 mb-2">
-        <a href="/">{comment.author}</a> ·{" "}
+        <Link href={`/user?id=${comment.author}`}>{comment.author}</Link> ·{" "}
         <span>{moment(comment.created_at).calendar()}</span> ·{" "}
         <span
           className="cursor-pointer"

@@ -1,81 +1,45 @@
-import { useTheme } from "@geist-ui/core";
 import moment from "moment";
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import sanitizeHtml from "sanitize-html";
-import UserLink from "./UserLink";
 
 const sanitizeOptions = {
-  allowedTags: ["i", "a", "p"],
+  allowedTags: ["i", "a", "p", "code", "quote"],
   allowedAttributes: {
     a: ["href"],
   },
 };
 
-interface CommentProps {
-  id: number;
-  deleted: boolean;
-  type: "job" | "story" | "comment" | "poll" | "pollopt";
-  by: string;
-  time: number;
-  text: string;
-  parent: number;
-  kids: CommentProps[];
-}
-
-export default function Comment(props: CommentProps) {
-  const theme = useTheme();
-  const [kidsHidden, setKidsHidden] = useState<boolean>(false);
-
-  const sanitizedText = sanitizeHtml(props.text, sanitizeOptions);
-
-  const toggleKidsHidden = useCallback(() => {
-    setKidsHidden((h) => !h);
-  }, []);
-
-  if (props.deleted) {
-    return <h5>Deleted comment ({moment.unix(props.time).calendar()})</h5>;
-  }
+export default function Comment(props) {
+  const { comment } = props;
+  const [hideSubcomments, setHideSubcomments] = useState<boolean>(false);
 
   return (
-    <div id={String(props.id)}>
-      <h6>
-        <UserLink name={props.by} /> ·{" "}
-        <span style={{ fontWeight: 400 }}>
-          {moment.unix(props.time).calendar()}
-        </span>{" "}
-        ·
+    <div id={String(comment.id)}>
+      <div className="text-sm text-gray-600 mb-2">
+        <a href="/">{comment.author}</a> ·{" "}
+        <span>{moment(comment.created_at).calendar()}</span> ·{" "}
         <span
-          onClick={toggleKidsHidden}
-          style={{
-            padding: 5,
-            cursor: "pointer",
-            borderRadius: 5,
-          }}
+          className="cursor-pointer"
+          onClick={() => setHideSubcomments((prev) => !prev)}
         >
-          Toggle
+          {hideSubcomments ? "[+]" : "[-]"}
         </span>
-      </h6>
-      {!kidsHidden ? (
+      </div>
+      {!hideSubcomments ? (
         <>
-          <div dangerouslySetInnerHTML={{ __html: sanitizedText }} />
           <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              rowGap: 10,
-              paddingLeft: 20,
-              marginTop: 10,
-              borderLeft: "1px solid #eaeaea",
+            className="commentContent"
+            dangerouslySetInnerHTML={{
+              __html: sanitizeHtml(comment.text, sanitizeOptions),
             }}
-          >
-            {props.kids?.map((comment) => (
-              <Comment key={comment.id} {...comment} />
+          />
+          <div className="ml-10 my-5">
+            {comment.children?.map((comment) => (
+              <Comment key={comment.id} comment={comment} />
             ))}
           </div>
         </>
-      ) : (
-        <h5>Hidden</h5>
-      )}
+      ) : null}
     </div>
   );
 }

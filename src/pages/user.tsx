@@ -1,47 +1,48 @@
-import { useTheme } from "@geist-ui/core";
-import axios from "axios";
 import moment from "moment";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import sanitizeHtml from "sanitize-html";
-import Container from "../components/Container";
-import Navbar from "../components/Navbar";
+
+import Layout from "../components/Layout";
 
 export default function User(props) {
-  const theme = useTheme();
-
   return (
     <div>
       <Head>
         <title>{props.user.id}</title>
         <meta property="og:title" content={props.user.id} />
       </Head>
-      <Navbar />
-      <Container>
-        <header style={{ margin: "30px 0" }}>
-          <h2>{props.user.id}</h2>
-          <p>{props.user.karma} karma</p>
-          <p>Created on {moment.unix(props.user.created).format("LLLL")}</p>
-        </header>
-        {props.user.about && (
-          <div
-            dangerouslySetInnerHTML={{ __html: sanitizeHtml(props.user.about) }}
-            style={{ color: theme.palette.accents_5 }}
-          ></div>
-        )}
-      </Container>
+      <Layout>
+        <div className="p-4 md:p-7 lg:p-10">
+          <div>
+            <div>{props.user.id}</div>
+            <p>{props.user.karma} karma</p>
+            <p>
+              Account created on{" "}
+              {moment.unix(props.user.created).format("LLLL")}
+            </p>
+          </div>
+          {props.user.about && (
+            <div
+              dangerouslySetInnerHTML={{
+                __html: sanitizeHtml(props.user.about),
+              }}
+            ></div>
+          )}
+        </div>
+      </Layout>
     </div>
   );
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  let user = await (
-    await axios.get(
-      `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/user/${encodeURIComponent(
-        String(context.query.id)
-      )}.json`
-    )
-  ).data;
+  let res = await fetch(
+    `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/user/${encodeURIComponent(
+      String(context.query.id)
+    )}.json`
+  );
+  let user = await res.json();
+
   if (!user) {
     return { notFound: true };
   }

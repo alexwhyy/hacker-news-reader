@@ -1,88 +1,67 @@
-import { useTheme } from "@geist-ui/core";
-import axios from "axios";
 import moment from "moment";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import Link from "next/link";
 import sanitizeHtml from "sanitize-html";
+
 import Comment from "../components/Comment";
-import Container from "../components/Container";
-import Navbar from "../components/Navbar";
-import UserLink from "../components/UserLink";
+import Layout from "../components/Layout";
 
 export default function Item(props) {
-  const theme = useTheme();
+  const { item } = props;
 
   return (
-    <div>
+    <>
       <Head>
-        <title>{props.item.title}</title>
-        <meta property="og:title" content={props.item.title} />
+        <title>{item.title}</title>
+        <meta property="og:title" content={item.title} />
       </Head>
-      <Navbar />
-      <div>
-        <Container
-          style={{ padding: "30px 0", borderBottom: "1px solid #eaeaea" }}
-        >
-          <h2 style={{ color: "black" }}>
-            <a href={props.item.url}>{props.item.title}</a>{" "}
-            {props.item.url && (
-              <span
-                style={{ fontSize: "1.5rem", fontWeight: 500, color: "gray" }}
-              >
-                ({new URL(props.item.url).hostname})
+      <Layout>
+        <div className="p-4 md:p-7 lg:p-10">
+          <div className="mb-1">
+            <a className="text-lg hover:underline" href={item.url}>
+              {item.title}
+            </a>{" "}
+            {item.url && (
+              <span className="text-md text-gray-500">
+                ({new URL(item.url).hostname})
               </span>
             )}
-          </h2>
-          <h5>
-            Posted by <UserLink name={props.item.by} /> on{" "}
-            {moment.unix(props.item.time).format("LLLL")}
-          </h5>
-          {props.item.text && (
+          </div>
+          <p className="text-sm text-gray-500">
+            Posted by{" "}
+            <Link href={`/user?id=${item.author}`}>{item.author}</Link> on{" "}
+            {moment(item.created_at).format("LLLL")}
+          </p>
+          {item.text && (
             <div
               dangerouslySetInnerHTML={{
-                __html: sanitizeHtml(props.item.text),
+                __html: sanitizeHtml(item.text),
               }}
-              style={{ marginTop: 30, color: theme.palette.accents_5 }}
             ></div>
           )}
-        </Container>
-        <Container style={{ padding: "30px 0" }}>
-          {props.comments.map((comment) => (
-            <Comment key={comment.id} {...comment} />
-          ))}
-        </Container>
-      </div>
-    </div>
+          <div className="pt-10">
+            {item.children.map((comment) => (
+              <Comment key={comment.id} comment={comment} />
+            ))}
+          </div>
+        </div>
+      </Layout>
+    </>
   );
 }
 
-// Recursive helper function for getting comments
-async function fetchItem(id: number) {
-  let item = await (
-    await axios.get(
-      `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/item/${id}.json`
-    )
-  ).data;
-  if (!item) {
-    // Sometimes this happens when the API doesn't return the comment for some reason
-    return null;
-  }
-  if (item.kids) {
-    item.kids = (
-      await Promise.all(item.kids.map((id: number) => fetchItem(id)))
-    ).filter((item) => item != null);
-  }
-  return item;
-}
-
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const item = await (
-    await axios.get(
-      `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/item/${encodeURIComponent(
-        String(context.query.id)
-      )}.json`
-    )
-  ).data;
+  if (!context.query.id) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const res = await fetch(
+    `https://hn.algolia.com/api/v1/items/${context.query.id}`
+  );
+  const item = await res.json();
 
   if (!item) {
     return {
@@ -90,12 +69,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     };
   }
 
-  let comments = [];
-  comments = await Promise.all(
-    item.kids.map(async (id: number) => await fetchItem(id))
-  );
-
   return {
-    props: { item, comments },
+    props: { item },
   };
 };

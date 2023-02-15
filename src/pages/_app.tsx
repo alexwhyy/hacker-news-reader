@@ -1,11 +1,14 @@
-import { GeistProvider, CssBaseline } from "@geist-ui/core";
+import { Inter } from "@next/font/google";
+
+import "../styles/global.css";
+
+const inter = Inter({ subsets: ["latin"] });
 
 const App = ({ Component, pageProps }) => {
   return (
-    <GeistProvider>
-      <CssBaseline />
+    <main className={inter.className}>
       <Component {...pageProps} />
-    </GeistProvider>
+    </main>
   );
 };
 

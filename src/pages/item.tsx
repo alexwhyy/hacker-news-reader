@@ -31,7 +31,7 @@ export default function Item(props) {
           <p className="text-sm text-gray-500">
             Posted by{" "}
             <Link href={`/user?id=${item.author}`}>{item.author}</Link> on{" "}
-            {dayjs.unix(item.created_at).toLocaleString()}
+            {dayjs(item.created_at).toLocaleString()}
           </p>
           {item.text && (
             <div

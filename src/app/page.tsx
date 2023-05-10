@@ -61,7 +61,7 @@ export default async function HomePage({ searchParams }) {
           </div>
         ))}
       </div>
-      <Link className="ml-20 mt-4" href={`/page?p=${page + 1}`}>
+      <Link className="ml-20 mt-4" href={`?p=${page + 1}`}>
         More
       </Link>
       <p className="py-3 text-center text-xs">

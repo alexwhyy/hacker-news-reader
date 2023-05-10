@@ -1,5 +1,8 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import Link from "next/link";
+
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 interface PostProps {
   id: number;
@@ -38,7 +41,7 @@ export default function Post(props: PostProps) {
           <Link className="hover:underline" href={`/user?id=${props.by}`}>
             {props.by}
           </Link>{" "}
-          {moment.unix(props.time).calendar().toLowerCase()} |{" "}
+          {dayjs.unix(props.time).fromNow()} |{" "}
           <Link className="hover:underline" href={`/item?id=${props.id}`}>
             {props.descendants || 0} comments
           </Link>

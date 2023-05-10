@@ -1,9 +1,9 @@
-import moment from "moment";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import sanitizeHtml from "sanitize-html";
 
 import Layout from "../components/Layout";
+import dayjs from "dayjs";
 
 export default function User(props) {
   return (
@@ -19,7 +19,7 @@ export default function User(props) {
             <p>{props.user.karma} karma</p>
             <p>
               Account created on{" "}
-              {moment.unix(props.user.created).format("LLLL")}
+              {dayjs.unix(props.user.created).toLocaleString()}
             </p>
           </div>
           {props.user.about && (

@@ -1,7 +1,10 @@
-import moment from "moment";
 import Link from "next/link";
 import { useState } from "react";
 import sanitizeHtml from "sanitize-html";
+import dayjs from "dayjs";
+
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
 
 const sanitizeOptions = {
   allowedTags: ["i", "a", "p", "code", "quote"],
@@ -18,7 +21,7 @@ export default function Comment(props) {
     <div id={String(comment.id)}>
       <div className="mb-2 text-sm text-gray-600">
         <Link href={`/user?id=${comment.author}`}>{comment.author}</Link> ·{" "}
-        <span>{moment(comment.created_at).calendar()}</span> ·{" "}
+        <span>{dayjs(comment.created_at).fromNow()}</span> ·{" "}
         <span
           className="cursor-pointer"
           onClick={() => setHideSubcomments((prev) => !prev)}

@@ -1,4 +1,3 @@
-import moment from "moment";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
@@ -6,6 +5,7 @@ import sanitizeHtml from "sanitize-html";
 
 import Comment from "../components/Comment";
 import Layout from "../components/Layout";
+import dayjs from "dayjs";
 
 export default function Item(props) {
   const { item } = props;
@@ -31,7 +31,7 @@ export default function Item(props) {
           <p className="text-sm text-gray-500">
             Posted by{" "}
             <Link href={`/user?id=${item.author}`}>{item.author}</Link> on{" "}
-            {moment(item.created_at).format("LLLL")}
+            {dayjs.unix(item.created_at).toLocaleString()}
           </p>
           {item.text && (
             <div

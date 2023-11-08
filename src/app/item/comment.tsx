@@ -21,7 +21,7 @@ export default function Comment(props) {
 
   return (
     <div id={String(comment.id)}>
-      <div className="mb-2 text-sm text-gray-600">
+      <div className="mb-2 text-sm text-gray-600 dark:text-gray-400">
         <Link href={`/user?id=${comment.author}`}>{comment.author}</Link> ·{" "}
         <span>{dayjs(comment.created_at).fromNow()}</span> ·{" "}
         <span
@@ -34,7 +34,7 @@ export default function Comment(props) {
       {!hideSubcomments ? (
         <>
           <div
-            className="commentContent"
+            className="commentContent dark:text-white"
             dangerouslySetInnerHTML={{
               __html: sanitizeHtml(comment.text, sanitizeOptions),
             }}

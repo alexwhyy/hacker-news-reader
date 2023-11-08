@@ -36,7 +36,7 @@ export default async function Item({ searchParams }) {
   return (
     <div className="px-4 py-5 md:px-7">
       <div className="mb-1">
-        <a className="text-lg hover:underline" href={item.url}>
+        <a className="text-lg hover:underline dark:text-white" href={item.url}>
           {item.title}
         </a>{" "}
         {item.url && (

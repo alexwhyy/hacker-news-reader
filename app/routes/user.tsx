@@ -9,7 +9,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     return undefined;
   }
 
-  const res = await fetch(`${process.env.HACKER_NEWS_API_ENDPOINT}/v0/user/${id}.json`);
+  const res = await fetch(
+    `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/user/${id}.json`
+  );
   const user = await res.json();
   if (!user) {
     return undefined;

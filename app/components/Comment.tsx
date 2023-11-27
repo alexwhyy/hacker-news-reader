@@ -1,7 +1,7 @@
 import { Link } from "@remix-run/react";
+import { intlFormatDistance } from "date-fns";
 import { useState } from "react";
 import sanitizeHtml from "sanitize-html";
-import { intlFormatDistance } from "date-fns";
 
 const sanitizeOptions = {
   allowedTags: ["i", "a", "p", "code", "quote"],
@@ -18,7 +18,10 @@ export const Comment = (props) => {
     <div id={String(comment.id)}>
       <div className="mb-2 text-sm text-gray-600 dark:text-gray-400">
         <Link to={`/user?id=${comment.author}`}>{comment.author}</Link> ·{" "}
-        <span>{intlFormatDistance(new Date(comment.created_at), new Date())}</span> ·{" "}
+        <span>
+          {intlFormatDistance(new Date(comment.created_at), new Date())}
+        </span>{" "}
+        ·{" "}
         <span
           className="cursor-pointer"
           onClick={() => setHideSubcomments((prev) => !prev)}

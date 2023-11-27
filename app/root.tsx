@@ -1,5 +1,13 @@
 import type { LinksFunction } from "@remix-run/node";
-import { Link, Links, Meta, Outlet, Scripts, LiveReload, ScrollRestoration } from "@remix-run/react";
+import {
+  Link,
+  Links,
+  LiveReload,
+  Meta,
+  Outlet,
+  Scripts,
+  ScrollRestoration,
+} from "@remix-run/react";
 
 import cssUrl from "./globals.css";
 

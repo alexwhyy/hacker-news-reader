@@ -8,7 +8,7 @@
     "format": "prettier --write \"./app/**/*.{js,jsx,ts,tsx}\"",
     "dev": "remix dev",
     "build": "remix build",
-    "start": "remix start"
+    "start": "remix-serve ./build/index.js"
   },
   "dependencies": {
     "@remix-run/node": "^2.3.1",

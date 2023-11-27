@@ -1,5 +1,5 @@
 import type { LinksFunction } from "@remix-run/node";
-import { Link, Links, Meta, Outlet, Scripts, LiveReload } from "@remix-run/react";
+import { Link, Links, Meta, Outlet, Scripts, LiveReload, ScrollRestoration } from "@remix-run/react";
 
 import cssUrl from "./globals.css";
 
@@ -26,6 +26,7 @@ export default function App() {
             </Link>
           </nav>
           <Outlet />
+          <ScrollRestoration />
           <Scripts />
           <LiveReload />
         </div>

@@ -1,11 +1,17 @@
-import Link from "next/link";
+import type { LoaderFunctionArgs } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
 import sanitizeHtml from "sanitize-html";
 
-import Comment from "./comment";
-import dayjs from "dayjs";
-import { Metadata } from "next";
+import { Comment } from "../components/Comment.js";
 
-const getItem = async (id: string) => {
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
+
+  if (!id) {
+    return undefined;
+  }
+
   const res = await fetch(`https://hn.algolia.com/api/v1/items/${id}`);
   const item = await res.json();
   if (!item) {
@@ -14,24 +20,8 @@ const getItem = async (id: string) => {
   return item;
 };
 
-export async function generateMetadata({ searchParams }): Promise<Metadata> {
-  const item = await getItem(searchParams.id);
-  return { title: `${item.title} | Hacker News Reader` };
-}
-
-export default async function Item({ searchParams }) {
-  if (!searchParams.id) {
-    return {
-      notFound: true,
-    };
-  }
-
-  const item = await getItem(searchParams.id);
-  if (!item) {
-    return {
-      notFound: true,
-    };
-  }
+export default function Item() {
+  const item = useLoaderData<typeof loader>();
 
   return (
     <div className="px-4 py-5 md:px-7">
@@ -46,8 +36,8 @@ export default async function Item({ searchParams }) {
         )}
       </div>
       <p className="text-sm text-gray-500">
-        Posted by <Link href={`/user?id=${item.author}`}>{item.author}</Link> on{" "}
-        {dayjs(item.created_at).toLocaleString()}
+        Posted by <Link to={`/user?id=${item.author}`}>{item.author}</Link> on{" "}
+        {new Date(item.created_at).toLocaleString()}
       </p>
       {item.text && (
         <div

@@ -1,5 +1,5 @@
-import { json } from "@remix-run/node";
-import type { LoaderFunctionArgs } from "@remix-run/node";
+import { json } from "@vercel/remix";
+import type { LoaderFunctionArgs } from "@vercel/remix";
 import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
 import { intlFormatDistance } from "date-fns";
 

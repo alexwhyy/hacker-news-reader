@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
+import { LoaderFunctionArgs } from "@vercel/remix";
 import { useLoaderData } from "@remix-run/react";
 import sanitizeHtml from "sanitize-html";
 

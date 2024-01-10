@@ -4,8 +4,6 @@ import sanitizeHtml from "sanitize-html";
 
 import { Comment } from "../components/Comment.js";
 
-export const config = { runtime: "edge" };
-
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const id = url.searchParams.get("id");

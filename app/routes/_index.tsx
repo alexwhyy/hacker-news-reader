@@ -5,8 +5,6 @@ import { intlFormatDistance } from "date-fns/intlFormatDistance";
 
 const ITEMS_PER_PAGE = 30;
 
-export const config = { runtime: "edge" };
-
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   let page: number;

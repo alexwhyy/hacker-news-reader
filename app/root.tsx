@@ -8,10 +8,13 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import type { LinksFunction, MetaFunction } from "@vercel/remix";
+import { cssBundleHref } from "@remix-run/css-bundle";
 
-import cssUrl from "./globals.css";
+import "./globals.css";
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: cssUrl }];
+export const links: LinksFunction = () => [
+  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+];
 
 export const meta: MetaFunction = () => [
   { title: "Hacker News Reader" },

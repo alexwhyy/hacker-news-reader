@@ -2,6 +2,8 @@ import { useLoaderData } from "@remix-run/react";
 import { LoaderFunctionArgs } from "@vercel/remix";
 import sanitizeHtml from "sanitize-html";
 
+export const config = { runtime: "edge" };
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
@@ -10,7 +12,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   }
 
   const res = await fetch(
-    `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/user/${id}.json`
+    `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/user/${id}.json`,
   );
   const user = await res.json();
   if (!user) {

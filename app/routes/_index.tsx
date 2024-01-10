@@ -5,6 +5,8 @@ import { intlFormatDistance } from "date-fns";
 
 const ITEMS_PER_PAGE = 30;
 
+export const config = { runtime: "edge" };
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   let page: number;
@@ -21,11 +23,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const topStories: any[] = await Promise.all(
     topStoriesIds.slice(pointer, pointer + ITEMS_PER_PAGE).map(async (id) => {
       const res = await fetch(
-        `https://hacker-news.firebaseio.com/v0/item/${id}.json`
+        `https://hacker-news.firebaseio.com/v0/item/${id}.json`,
       );
       const story = await res.json();
       return story;
-    })
+    }),
   );
   return json(topStories);
 };

@@ -1,5 +1,5 @@
-import type { LoaderFunctionArgs } from "@vercel/remix";
 import { Link, useLoaderData } from "@remix-run/react";
+import type { LoaderFunctionArgs } from "@vercel/remix";
 import sanitizeHtml from "sanitize-html";
 
 import { Comment } from "../components/Comment.js";

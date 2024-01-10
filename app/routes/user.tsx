@@ -1,5 +1,5 @@
-import { LoaderFunctionArgs } from "@vercel/remix";
 import { useLoaderData } from "@remix-run/react";
+import { LoaderFunctionArgs } from "@vercel/remix";
 import sanitizeHtml from "sanitize-html";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {

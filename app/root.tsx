@@ -1,4 +1,3 @@
-import type { LinksFunction } from "@vercel/remix";
 import {
   Link,
   Links,
@@ -8,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import type { LinksFunction } from "@vercel/remix";
 
 import cssUrl from "./globals.css";
 

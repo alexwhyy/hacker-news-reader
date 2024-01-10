@@ -1,5 +1,5 @@
 import { Link } from "@remix-run/react";
-import { intlFormatDistance } from "date-fns";
+import { intlFormatDistance } from "date-fns/intlFormatDistance";
 import { useState } from "react";
 import sanitizeHtml from "sanitize-html";
 

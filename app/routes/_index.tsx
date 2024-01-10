@@ -1,7 +1,7 @@
 import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
 import { json } from "@vercel/remix";
 import type { LoaderFunctionArgs } from "@vercel/remix";
-import { intlFormatDistance } from "date-fns";
+import { intlFormatDistance } from "date-fns/intlFormatDistance";
 
 const ITEMS_PER_PAGE = 30;
 

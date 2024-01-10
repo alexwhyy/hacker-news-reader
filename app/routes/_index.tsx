@@ -14,14 +14,14 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     page = 1;
   }
 
-  let apiUrl: string = `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/topstories.json`;
+  let apiUrl: string = "https://hacker-news.firebaseio.com/v0/topstories.json";
   const res = await fetch(apiUrl);
   const topStoriesIds: number[] = await res.json();
   const pointer: number = ITEMS_PER_PAGE * (page - 1);
   const topStories: any[] = await Promise.all(
     topStoriesIds.slice(pointer, pointer + ITEMS_PER_PAGE).map(async (id) => {
       const res = await fetch(
-        `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/item/${id}.json`
+        `https://hacker-news.firebaseio.com/v0/item/${id}.json`
       );
       const story = await res.json();
       return story;

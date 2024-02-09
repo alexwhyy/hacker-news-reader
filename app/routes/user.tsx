@@ -25,7 +25,7 @@ export default function User() {
   return (
     <div className="p-4 md:p-7 lg:p-10">
       <div>
-        <p className="text-lg font-medium dark:text-white">{user.id}</p>
+        <p className="text-lg font-medium">{user.id}</p>
         <p>{user.karma} karma</p>
         <p>Account created on {new Date(user.created).toLocaleString()}</p>
       </div>

@@ -48,10 +48,10 @@ export default function Component() {
           <Story key={story.id} story={story} />
         ))}
       </div>
-      <Link className="ml-20 mt-4 dark:text-white" to={`?p=${pageNumber + 1}`}>
+      <Link className="ml-20 mt-4" to={`?p=${pageNumber + 1}`}>
         More
       </Link>
-      <p className="py-3 text-center text-xs dark:text-white">
+      <p className="py-3 text-center text-xs">
         Hacker News belongs to Y Combinator.
       </p>
     </>
@@ -62,21 +62,21 @@ const Story = (props) => {
   const { story } = props;
   return (
     <div key={story.id} className="flex space-x-4">
-      <div className="flex w-12 shrink-0 items-center justify-center bg-gray-100 dark:bg-gray-800 text-sm dark:text-white">
+      <div className="flex w-12 shrink-0 items-center justify-center bg-gray-100 text-sm ">
         {story.score}
       </div>
       <div>
         <a href={story.url}>
-          <div className="dark:text-white">
+          <div className="">
             {story.title}{" "}
             {story.url && (
-              <span className="text-sm text-gray-600 dark:text-gray-400">
+              <span className="text-sm text-gray-600">
                 ({story.url.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i)[1]})
               </span>
             )}
           </div>
         </a>
-        <div className="text-sm text-gray-600 dark:text-gray-400">
+        <div className="text-sm text-gray-600">
           Posted by{" "}
           <Link className="hover:underline" to={`/user?id=${story.by}`}>
             {story.by}

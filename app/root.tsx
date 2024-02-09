@@ -1,3 +1,4 @@
+import { cssBundleHref } from "@remix-run/css-bundle";
 import {
   Link,
   Links,
@@ -8,7 +9,6 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 import type { LinksFunction, MetaFunction } from "@vercel/remix";
-import { cssBundleHref } from "@remix-run/css-bundle";
 
 import "./globals.css";
 
@@ -36,8 +36,8 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="bg-gray-100 dark:bg-gray-800">
-        <div className="bg-white dark:bg-gray-900 sm:mx-20 sm:mt-3 md:mx-80 md:mt-5">
+      <body className="bg-gray-100">
+        <div className="bg-white sm:mx-20 sm:mt-3 md:mx-80 md:mt-5">
           <nav className="flex justify-between bg-orange-500 px-5 py-2">
             <Link to="/">
               <p className="text-md font-semibold">Hacker News Reader</p>

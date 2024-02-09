@@ -16,7 +16,7 @@ export const Comment = (props) => {
 
   return (
     <div id={String(comment.id)}>
-      <div className="mb-2 text-sm text-gray-600 dark:text-gray-400">
+      <div className="mb-2 text-sm text-gray-600">
         <Link to={`/user?id=${comment.author}`}>{comment.author}</Link> ·{" "}
         <span>
           {intlFormatDistance(new Date(comment.created_at), new Date())}
@@ -32,7 +32,7 @@ export const Comment = (props) => {
       {!hideSubcomments ? (
         <>
           <div
-            className="commentContent dark:text-white"
+            className="commentContent"
             dangerouslySetInnerHTML={{
               __html: sanitizeHtml(comment.text, sanitizeOptions),
             }}

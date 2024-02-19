@@ -1,4 +1,3 @@
-import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Link,
@@ -10,11 +9,9 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import "./globals.css";
+import styles from "./globals.css";
 
-export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
-];
+export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export const meta: MetaFunction = () => [
   { title: "Hacker News Reader" },

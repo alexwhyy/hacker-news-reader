@@ -3,34 +3,38 @@
   "version": "3.0.0",
   "description": "Hacker News Reader",
   "private": true,
+  "sideEffects": false,
+  "type": "module",
   "scripts": {
-    "format": "prettier --write \"./src/**/*.{js,jsx,ts,tsx,css,scss,md}\"",
-    "dev": "next dev --turbo",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "format": "biome format ./app --write",
+    "build": "remix build",
+    "dev": "remix dev --manual",
+    "start": "remix-serve ./build/index.js"
   },
   "dependencies": {
-    "dayjs": "^1.11.10",
-    "next": "^14.0.0",
+    "@remix-run/css-bundle": "^2.6.0",
+    "@remix-run/node": "^2.6.0",
+    "@remix-run/react": "^2.6.0",
+    "@remix-run/serve": "^2.6.0",
+    "date-fns": "^3.3.1",
+    "firebase": "^10.8.0",
+    "isbot": "^5.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sanitize-html": "^2.11.0"
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^4.2.1",
-    "@types/node": "20.8.9",
-    "@types/react": "^18.2.33",
-    "@types/react-dom": "^18.2.14",
-    "@types/sanitize-html": "^2.9.3",
-    "autoprefixer": "^10.4.16",
-    "eslint": "^8.52.0",
-    "eslint-config-next": "^14.0.0",
+    "@biomejs/biome": "^1.5.3",
+    "@remix-run/dev": "^2.6.0",
+    "@types/node": "20.11.19",
+    "@types/react": "^18.2.56",
+    "@types/react-dom": "^18.2.19",
+    "@types/sanitize-html": "^2.11.0",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "postcss": "^8.4.31",
-    "prettier": "^3.0.3",
-    "prettier-plugin-tailwindcss": "^0.5.6",
-    "tailwindcss": "^3.3.5",
-    "typescript": "^5.2.2"
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3"
   }
 }

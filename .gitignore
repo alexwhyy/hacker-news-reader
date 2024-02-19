@@ -31,3 +31,6 @@ yarn-error.log*
 
 # intellij
 .idea
+
+/.cache
+/public/build

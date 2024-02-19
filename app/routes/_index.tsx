@@ -1,7 +1,20 @@
+import { json } from "@remix-run/node";
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import { Link, useLoaderData, useSearchParams } from "@remix-run/react";
-import { json } from "@vercel/remix";
-import type { LoaderFunctionArgs } from "@vercel/remix";
 import { intlFormatDistance } from "date-fns/intlFormatDistance";
+import { db } from "../db";
+
+interface HackerNewsStory {
+  by: string;
+  descendants: number;
+  id: number;
+  kids: { [id: string]: number };
+  score: number;
+  time: number;
+  title: string;
+  type: string;
+  url: string;
+}
 
 const ITEMS_PER_PAGE = 30;
 
@@ -13,19 +26,16 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   } else {
     page = 1;
   }
-
-  let apiUrl: string = "https://hacker-news.firebaseio.com/v0/topstories.json";
-  const res = await fetch(apiUrl);
-  const topStoriesIds: number[] = await res.json();
   const pointer: number = ITEMS_PER_PAGE * (page - 1);
-  const topStories: any[] = await Promise.all(
-    topStoriesIds.slice(pointer, pointer + ITEMS_PER_PAGE).map(async (id) => {
-      const res = await fetch(
-        `https://hacker-news.firebaseio.com/v0/item/${id}.json`,
-      );
-      const story = await res.json();
-      return story;
-    }),
+  const ids: number[] = Object.values(
+    (await db.child("topstories").once("value")).toJSON(),
+  );
+  const topStories: HackerNewsStory[] = await Promise.all(
+    ids
+      .slice(pointer, pointer + ITEMS_PER_PAGE)
+      .map(async (id) =>
+        (await db.child("item").child(id).once("value")).toJSON(),
+      ),
   );
   return json(topStories);
 };

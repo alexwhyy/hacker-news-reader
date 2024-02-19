@@ -12,7 +12,11 @@ a {
   text-decoration: none;
 }
 
-.commentContent a {
+.comment-content p {
+  margin-bottom: 10px;
+}
+
+.comment-content a {
   color: #000;
   text-decoration: underline;
 }

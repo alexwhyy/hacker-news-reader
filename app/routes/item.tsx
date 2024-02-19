@@ -1,5 +1,6 @@
+import type { LoaderFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import type { LoaderFunctionArgs } from "@vercel/remix";
 import sanitizeHtml from "sanitize-html";
 
 import { Comment } from "../components/Comment.js";
@@ -7,17 +8,15 @@ import { Comment } from "../components/Comment.js";
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
-
   if (!id) {
-    return undefined;
+    return null;
   }
-
   const res = await fetch(`https://hn.algolia.com/api/v1/items/${id}`);
   const item = await res.json();
   if (!item) {
-    return undefined;
+    return null;
   }
-  return item;
+  return json(item);
 };
 
 export default function Item() {
@@ -35,16 +34,17 @@ export default function Item() {
           </span>
         )}
       </div>
-      <p className="text-sm text-gray-500">
+      <p className="text-sm text-gray-500 mb-5">
         Posted by <Link to={`/user?id=${item.author}`}>{item.author}</Link> on{" "}
         {new Date(item.created_at).toLocaleString()}
       </p>
       {item.text && (
         <div
+          className="comment-content"
           dangerouslySetInnerHTML={{
             __html: sanitizeHtml(item.text),
           }}
-        ></div>
+        />
       )}
       <div className="pt-10">
         {item.children.map((comment) => (

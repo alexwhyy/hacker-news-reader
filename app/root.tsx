@@ -1,4 +1,5 @@
 import { cssBundleHref } from "@remix-run/css-bundle";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Link,
   Links,
@@ -8,7 +9,6 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import type { LinksFunction, MetaFunction } from "@vercel/remix";
 
 import "./globals.css";
 

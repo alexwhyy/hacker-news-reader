@@ -32,7 +32,7 @@ export const Comment = (props) => {
       {!hideSubcomments ? (
         <>
           <div
-            className="commentContent"
+            className="comment-content"
             dangerouslySetInnerHTML={{
               __html: sanitizeHtml(comment.text, sanitizeOptions),
             }}

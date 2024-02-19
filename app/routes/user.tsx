@@ -1,22 +1,22 @@
+import type { LoaderFunctionArgs } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { LoaderFunctionArgs } from "@vercel/remix";
 import sanitizeHtml from "sanitize-html";
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);
   const id = url.searchParams.get("id");
   if (!id) {
-    return undefined;
+    return null;
   }
-
   const res = await fetch(
-    `${process.env.HACKER_NEWS_API_ENDPOINT}/v0/user/${id}.json`,
+    `https://hacker-news.firebaseio.com/v0/user/${id}.json`,
   );
   const user = await res.json();
   if (!user) {
-    return undefined;
+    return null;
   }
-  return user;
+  return json(user);
 };
 
 export default function User() {
@@ -31,10 +31,11 @@ export default function User() {
       </div>
       {user.about && (
         <div
+          className="comment-content"
           dangerouslySetInnerHTML={{
             __html: sanitizeHtml(user.about),
           }}
-        ></div>
+        />
       )}
     </div>
   );

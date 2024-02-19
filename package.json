@@ -16,9 +16,9 @@
     "@remix-run/node": "^2.6.0",
     "@remix-run/react": "^2.6.0",
     "@remix-run/serve": "^2.6.0",
-    "@vercel/remix": "^2.5.1",
     "date-fns": "^3.3.1",
-    "isbot": "^4.4.0",
+    "firebase": "^10.8.0",
+    "isbot": "^5.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sanitize-html": "^2.11.0"
@@ -26,16 +26,14 @@
   "devDependencies": {
     "@biomejs/biome": "^1.5.3",
     "@remix-run/dev": "^2.6.0",
-    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
-    "@types/node": "20.11.17",
-    "@types/react": "^18.2.55",
+    "@types/node": "20.11.19",
+    "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
     "@types/sanitize-html": "^2.11.0",
     "autoprefixer": "^10.4.17",
     "eslint": "^8.56.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "postcss": "^8.4.35",
-    "prettier": "^3.2.5",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3"
   }

@@ -1,3 +1,4 @@
+import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Link,
@@ -9,19 +10,17 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import styles from "./globals.css";
+import "./global.css";
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+export const links: LinksFunction = () => [
+  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+];
 
 export const meta: MetaFunction = () => [
   { title: "Hacker News Reader" },
   {
     name: "description",
     content: "Hacker News Reader built with Remix",
-  },
-  {
-    name: "viewport",
-    content: "width=device-width,initial-scale=1",
   },
 ];
 
@@ -30,6 +29,7 @@ export default function App() {
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
       </head>
